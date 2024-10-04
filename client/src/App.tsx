@@ -1,35 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="min-h-screen bg-gray-800 text-white flex flex-col items-center justify-center">
+      <h1 className="text-4xl font-bold mb-4">Welcome to Project Asphalt!</h1>
+      <img src = "https://media.licdn.com/dms/image/v2/C4E03AQEE2bmd_jPsug/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1601767770013?e=1733356800&v=beta&t=2s7wlliHW9qwiaBF6dNSEoITY6w2VGbmgqb1MY0N6BA"></img>
+    </div>
+  );
 }
 
-export default App
+export default App;
