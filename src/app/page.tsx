@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Navbar from './components/Navbar';
 import Link from 'next/link';
+import Explore from './explore/page';
 export default function HomePage() {
   return (
     <>
@@ -15,8 +16,8 @@ export default function HomePage() {
             </p>
             {/* Buttons below the text */}
             <div className="flex space-x-4 mt-4">
-              <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Explore Routes</button>
-              <button className="border border-white text-white font-bold py-2 px-4 rounded">Contact Us</button>
+              <Link href="/explore"><button className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Explore Routes</button></Link>
+              <Link href = "/"><button className="border border-white text-white font-bold py-2 px-4 rounded">Contact Us</button></Link>
             </div>
           </div>
 

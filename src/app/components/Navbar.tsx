@@ -57,11 +57,7 @@ export default function Navbar() {
                 Home
               </Link>
             </li>
-            <li>
-              <Link href="/about" className="block py-2 px-4 hover:bg-gray-700 rounded-md">
-                About
-              </Link>
-            </li>
+
             <li>
               <Link href="/explore" className="block py-2 px-4 hover:bg-gray-700 rounded-md">
                 Explore
