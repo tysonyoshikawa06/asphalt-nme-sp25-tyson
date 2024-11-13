@@ -14,7 +14,7 @@ export default function Navbar() {
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="text-white text-2xl font-bold">
-          <img className="w-20 h-15" src="https://cdn.discordapp.com/attachments/726335591037272087/1303120943484502098/image.png?ex=672a9973&is=672947f3&hm=83d1aba95e593fd54f2402a148829b2dd1e5e4d2aac44b554592a861503f5165&"></img>
+          <img className="w-20 h-15" src="/images/logoo.png"></img>
         </Link>
 
         {/* Hamburger Icon for Mobile */}
