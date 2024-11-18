@@ -1,42 +1,24 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import PlacesAutocomplete from './PlacesAutocomplete';
 
-// Fix for default marker icons
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png',
+// Dynamically import the map component with no SSR
+const MapView = dynamic(() => import("./MapView"), {
+  ssr: false,
+  loading: () => (
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-50">
+      <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+    </div>
+  )
 });
-
-// Add this new component for map bounds control
-const MapController = ({ startCoords, endCoords, route }) => {
-  const map = useMap();
-  
-  useEffect(() => {
-    if (route && route.length > 0) {
-      const bounds = L.latLngBounds(route);
-      map.fitBounds(bounds, { padding: [50, 50] });
-    } else if (startCoords && endCoords) {
-      const bounds = L.latLngBounds(
-        [startCoords.lat, startCoords.lng],
-        [endCoords.lat, endCoords.lng]
-      );
-      map.fitBounds(bounds, { padding: [50, 50] });
-    }
-  }, [map, route, startCoords, endCoords]);
-
-  return null;
-};
 
 const ExplorePage = () => {
   const [formData, setFormData] = useState({
-    startLocation: '',
-    endLocation: '',
+    stops: [
+      { location: '', coords: null }, // Start
+      { location: '', coords: null }  // End
+    ],
     maintainOrder: false,
     currentFuel: '',
     time: '',
@@ -44,13 +26,14 @@ const ExplorePage = () => {
   });
 
   const [route, setRoute] = useState(null);
-  const [startCoords, setStartCoords] = useState(null);
-  const [endCoords, setEndCoords] = useState(null);
   const [isMapView, setIsMapView] = useState(false);
 
+  // Add these computed values
+  const startCoords = formData.stops[0]?.coords || null;
+  const endCoords = formData.stops[formData.stops.length - 1]?.coords || null;
+
   interface FormData {
-    startLocation: string;
-    endLocation: string;
+    stops: Stop[];
     maintainOrder: boolean;
     currentFuel: string;
     time: string;
@@ -67,14 +50,28 @@ const ExplorePage = () => {
     };
   }
 
-  const handleStartSelect = (place: Place) => {
-    setStartCoords(place.geometry.location);
-    setFormData(prev => ({ ...prev, startLocation: place.formatted_address }));
+  const handleStopSelect = (place: Place, index: number) => {
+    const newStops = [...formData.stops];
+    newStops[index] = {
+      location: place.formatted_address,
+      coords: place.geometry.location
+    };
+    setFormData(prev => ({ ...prev, stops: newStops }));
   };
 
-  const handleEndSelect = (place: Place) => {
-    setEndCoords(place.geometry.location);
-    setFormData(prev => ({ ...prev, endLocation: place.formatted_address }));
+  const addStop = () => {
+    setFormData(prev => ({
+      ...prev,
+      stops: [...prev.stops.slice(0, -1), { location: '', coords: null }, prev.stops[prev.stops.length - 1]]
+    }));
+  };
+
+  const removeStop = (index: number) => {
+    if (formData.stops.length <= 2) return; // Keep at least start and end
+    setFormData(prev => ({
+      ...prev,
+      stops: prev.stops.filter((_, i) => i !== index)
+    }));
   };
 
   const handleInputChange = (e) => {
@@ -98,10 +95,14 @@ const ExplorePage = () => {
     }
   };
 
-  const getRoute = async (start, end) => {
+  const getMultiStopRoute = async (stops: Stop[]) => {
     try {
+      const coordinates = stops.map(stop =>
+        `${stop.coords.lng},${stop.coords.lat}`
+      ).join(';');
+
       const response = await fetch(
-        `https://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${end.lng},${end.lat}?overview=full&geometries=geojson`
+        `https://router.project-osrm.org/route/v1/driving/${coordinates}?overview=full&geometries=geojson`
       );
       const data = await response.json();
       if (data.routes && data.routes.length > 0) {
@@ -116,13 +117,9 @@ const ExplorePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const startCoords = await searchLocation(formData.startLocation);
-    const endCoords = await searchLocation(formData.endLocation);
-    
-    if (startCoords && endCoords) {
-      setStartCoords(startCoords);
-      setEndCoords(endCoords);
-      const routeData = await getRoute(startCoords, endCoords);
+    const validStops = formData.stops.every(stop => stop.coords);
+    if (validStops) {
+      const routeData = await getMultiStopRoute(formData.stops);
       setRoute(routeData);
       setIsMapView(true);
     }
@@ -134,31 +131,53 @@ const ExplorePage = () => {
         // Form View
         <div className="p-8">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-8">Explore Routes</h1>
+            <h1 className="text-3xl text-black font-bold mb-8">Explore Routes</h1>
             <div className="bg-white rounded-lg shadow-md p-6">
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Stops Section */}
                 <div className="space-y-4 text-black">
-                  <div className="relative">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Start Location
-                    </label>
-                    <PlacesAutocomplete
-                      value={formData.startLocation}
-                      onChange={(value) => setFormData(prev => ({ ...prev, startLocation: value }))}
-                      onSelect={handleStartSelect}
-                    />
-                  </div>
+                  {formData.stops.map((stop, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <div className="flex-grow relative">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          {index === 0 ? 'Start Location' :
+                            index === formData.stops.length - 1 ? 'End Location' :
+                              `Stop ${index}`}
+                        </label>
+                        <PlacesAutocomplete
+                          value={stop.location}
+                          onChange={(value) => {
+                            const newStops = [...formData.stops];
+                            newStops[index].location = value;
+                            setFormData(prev => ({ ...prev, stops: newStops }));
+                          }}
+                          onSelect={(place) => handleStopSelect(place, index)}
+                        />
+                      </div>
+                      {formData.stops.length > 2 && index !== 0 && index !== formData.stops.length - 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeStop(index)}
+                          className="mt-6 p-2 text-gray-400 hover:text-red-500"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  ))}
 
-                  <div className="relative">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      End Location
-                    </label>
-                    <PlacesAutocomplete
-                      value={formData.endLocation}
-                      onChange={(value) => setFormData(prev => ({ ...prev, endLocation: value }))}
-                      onSelect={handleEndSelect}
-                    />
-                  </div>
+                  <button
+                    type="button"
+                    onClick={addStop}
+                    className="mt-2 flex items-center text-blue-600 hover:text-blue-700"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                    </svg>
+                    Add stop
+                  </button>
                 </div>
 
                 {/* Order Checkbox */}
@@ -190,7 +209,7 @@ const ExplorePage = () => {
                       placeholder="Enter fuel amount"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Time
@@ -204,7 +223,7 @@ const ExplorePage = () => {
                       placeholder="Enter time"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Vehicle Number
@@ -231,35 +250,13 @@ const ExplorePage = () => {
           </div>
         </div>
       ) : (
-        // Map View
-        <div className="fixed inset-0 bg-white">
-          <button
-            onClick={() => setIsMapView(false)}
-            className="absolute top-4 left-4 z-10 bg-white rounded-full p-2 shadow-md hover:bg-gray-100"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-          </button>
-          <MapContainer
-            center={[20.5937, 78.9629]}
-            zoom={5}
-            style={{ width: '100%', height: '100%' }}
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <MapController startCoords={startCoords} endCoords={endCoords} route={route} />
-            {startCoords && <Marker position={[startCoords.lat, startCoords.lng]}>
-              <Popup>Start Location</Popup>
-            </Marker>}
-            {endCoords && <Marker position={[endCoords.lat, endCoords.lng]}>
-              <Popup>End Location</Popup>
-            </Marker>}
-            {route && <Polyline positions={route} color="blue" weight={4} />}
-          </MapContainer>
-        </div>
+        <MapView
+          formData={formData}
+          route={route}
+          startCoords={startCoords}
+          endCoords={endCoords}
+          onBack={() => setIsMapView(false)}
+        />
       )}
     </div>
   );
