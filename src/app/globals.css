@@ -25,3 +25,31 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Felt-like map styling */
+.leaflet-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.leaflet-popup-content {
+  margin: 8px 12px;
+}
+
+.leaflet-control-zoom a {
+  border-radius: 8px !important;
+  color: #374151 !important;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  margin: 15px !important;
+}
+
+.leaflet-control-zoom a:hover {
+  color: #1f2937 !important;
+}

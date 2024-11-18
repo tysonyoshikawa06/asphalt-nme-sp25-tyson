@@ -1,40 +1,99 @@
-import React, { useRef } from 'react';
-import { Autocomplete } from '@react-google-maps/api';
-import { Search } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { debounce } from 'lodash';
+
+interface Place {
+  display_name: string;
+  lat: string;
+  lon: string;
+}
 
 interface PlacesAutocompleteProps {
   value: string;
   onChange: (value: string) => void;
-  onSelect: (place: google.maps.places.PlaceResult) => void;
+  onSelect: (place: { formatted_address: string; geometry: { location: { lat: number; lng: number } } }) => void;
 }
 
 const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({ value, onChange, onSelect }) => {
-  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const [suggestions, setSuggestions] = useState<Place[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Debounced search function
+  const searchPlaces = debounce(async (query: string) => {
+    if (!query) {
+      setSuggestions([]);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`
+      );
+      const data = await response.json();
+      setSuggestions(data);
+    } catch (error) {
+      console.error('Error fetching places:', error);
+      setSuggestions([]);
+    }
+  }, 300);
+
+  useEffect(() => {
+    searchPlaces(value);
+  }, [value]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSuggestionClick = (place: Place) => {
+    onChange(place.display_name);
+    onSelect({
+      formatted_address: place.display_name,
+      geometry: {
+        location: {
+          lat: parseFloat(place.lat),
+          lng: parseFloat(place.lon)
+        }
+      }
+    });
+    setIsOpen(false);
+  };
 
   return (
-    <div className="relative">
-      <Autocomplete
-        onLoad={(autocomplete) => {
-          autocompleteRef.current = autocomplete;
+    <div ref={wrapperRef} className="relative">
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => {
+          onChange(e.target.value);
+          setIsOpen(true);
         }}
-        onPlaceChanged={() => {
-          const place = autocompleteRef.current?.getPlace();
-          if (place) {
-            onSelect(place);
-          }
-        }}
-      >
-        <div className="relative">
-          <input
-            type="text"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter location"
-          />
-          <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-        </div>
-      </Autocomplete>
+        onFocus={() => setIsOpen(true)}
+        className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Search locations..."
+      />
+
+      {isOpen && suggestions.length > 0 && (
+        <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-auto shadow-lg">
+          {suggestions.map((place, index) => (
+            <li
+              key={index}
+              onClick={() => handleSuggestionClick(place)}
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+            >
+              {place.display_name}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
