@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import PlacesAutocomplete from './PlacesAutocomplete';
+import Navbar from '../components/Navbar';
+import Link from 'next/link';
 
 // Dynamically import the map component with no SSR
 const MapView = dynamic(() => import("./MapView"), {
@@ -125,12 +127,22 @@ const ExplorePage = () => {
     }
   };
 
+
   return (
     <div className="min-h-screen bg-gray-50">
       {!isMapView ? (
         // Form View
         <div className="p-8">
           <div className="max-w-4xl mx-auto">
+            <Link
+              href="/"
+              className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-4"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+              </svg>
+              Back
+            </Link>
             <h1 className="text-3xl text-black font-bold mb-8">Explore Routes</h1>
             <div className="bg-white rounded-lg shadow-md p-6">
               <form onSubmit={handleSubmit} className="space-y-6">
