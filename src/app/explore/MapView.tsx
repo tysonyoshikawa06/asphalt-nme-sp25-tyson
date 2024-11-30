@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import L, { LatLng } from 'leaflet';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
 // Fix for default marker icons
@@ -20,6 +20,16 @@ const convertUnits = {
         kgToTrees: (kg: number) => (kg * 0.0834).toFixed(1), // Approximate: 1 tree absorbs ~12kg CO2 per year
         treesToKg: (trees: number) => (trees / 0.0834).toFixed(1)
     }
+};
+
+const calculateRouteDistance = (route: number[][]) => {
+    let totalDistance = 0;
+    for (let i = 0; i < route.length - 1; i++) {
+        const point1 = L.latLng(route[i][0], route[i][1]);
+        const point2 = L.latLng(route[i + 1][0], route[i + 1][1]);
+        totalDistance += point1.distanceTo(point2) / 1000; // Convert meters to kilometers
+    }
+    return Math.round(totalDistance);
 };
 
 const MapController = ({ startCoords, endCoords, route }: any) => {
@@ -98,55 +108,67 @@ const AnalyticsPanel = ({ isOpen, onClose, route, formData }: any) => {
     const [distanceUnit, setDistanceUnit] = useState<'km' | 'mi'>('km');
     const [emissionsUnit, setEmissionsUnit] = useState<'co2' | 'trees'>('co2');
 
-    const mockEmissionsData = [
-        { time: '0h', emissions: 2.1, distance: 50 },
-        { time: '1h', emissions: 3.4, distance: 120 },
-        { time: '2h', emissions: 2.8, distance: 180 },
-        { time: '3h', emissions: 4.2, distance: 270 },
-        { time: '4h', emissions: 3.1, distance: 350 },
-        { time: '5h', emissions: 2.9, distance: 437 }
-    ];
+    // Calculate actual route distance
+    const originalDistance = route ? calculateRouteDistance(route) : 0;
+    const optimizedDistance = Math.round(originalDistance * 0.85); // Assuming 15% optimization
+    const distanceSaved = originalDistance - optimizedDistance;
+    const distanceSavedPercent = originalDistance ? ((distanceSaved / originalDistance) * 100).toFixed(1) : '0';
 
-    const totalEmissions = 13.1; // kg CO2
-    const emissionsSaved = 2.4; // kg CO2
-    const savingsPercentage = 15.5;
+    // Update emissions based on actual distance
+    const emissionsPerKm = 0.12; // kg CO2 per km (example value)
+    const totalEmissions = Math.round(optimizedDistance * emissionsPerKm * 10) / 10;
+    const emissionsSaved = Math.round(distanceSaved * emissionsPerKm * 10) / 10;
+    const savingsPercentage = distanceSavedPercent;
 
-    // Calculate optimized values (mock data - replace with actual calculations)
-    const originalDistance = 500; // km
-    const optimizedDistance = 437; // km
+    // const mockEmissionsData = [
+    //     { time: '0h', emissions: 2.1, distance: 50 },
+    //     { time: '1h', emissions: 3.4, distance: 120 },
+    //     { time: '2h', emissions: 2.8, distance: 180 },
+    //     { time: '3h', emissions: 4.2, distance: 270 },
+    //     { time: '4h', emissions: 3.1, distance: 350 },
+    //     { time: '5h', emissions: 2.9, distance: 437 }
+    // ];
+
+    // const totalEmissions = 13.1; // kg CO2
+    // const emissionsSaved = 2.4; // kg CO2
+    // const savingsPercentage = 15.5;
+
+    // Update mock emissions data based on actual distance
+    const mockEmissionsData = Array.from({ length: 6 }, (_, i) => ({
+        time: `${i}h`,
+        emissions: (totalEmissions / 6 * (1 + Math.sin(i / 2) * 0.3)).toFixed(1),
+        distance: Math.round(optimizedDistance / 6 * (i + 1))
+    }));
+
     const originalTime = formData.time || "6h 30m";
     const optimizedTime = "5h 23m";
-    
-    const distanceSaved = originalDistance - optimizedDistance;
-    const distanceSavedPercent = ((distanceSaved / originalDistance) * 100).toFixed(1);
 
     const formatDistance = (km: number) => {
-        return distanceUnit === 'km' ? 
-            `${km} km` : 
+        return distanceUnit === 'km' ?
+            `${km} km` :
             `${convertUnits.distance.kmToMiles(km)} mi`;
     };
 
     const formatEmissions = (kgCO2: number) => {
-        return emissionsUnit === 'co2' ? 
-            `${kgCO2} kg CO₂` : 
+        return emissionsUnit === 'co2' ?
+            `${kgCO2} kg CO₂` :
             `${convertUnits.emissions.kgToTrees(kgCO2)} trees/year`;
     };
 
-    const UnitToggle = ({ unit, onChange, options }: { 
-        unit: string; 
-        onChange: (value: any) => void; 
-        options: { value: string; label: string; }[] 
+    const UnitToggle = ({ unit, onChange, options }: {
+        unit: string;
+        onChange: (value: any) => void;
+        options: { value: string; label: string; }[]
     }) => (
         <div className="flex items-center space-x-2 bg-gray-100 rounded-lg p-1">
             {options.map(option => (
                 <button
                     key={option.value}
                     onClick={() => onChange(option.value)}
-                    className={`px-3 py-1 rounded-md text-sm ${
-                        unit === option.value 
-                            ? 'bg-white shadow text-blue-600' 
-                            : 'text-gray-600 hover:bg-gray-200'
-                    }`}
+                    className={`px-3 py-1 rounded-md text-sm ${unit === option.value
+                        ? 'bg-white shadow text-blue-600'
+                        : 'text-gray-600 hover:bg-gray-200'
+                        }`}
                 >
                     {option.label}
                 </button>
