@@ -15,6 +15,31 @@ const MapView = dynamic(() => import("./MapView"), {
   )
 });
 
+// Add preset route data
+const presetRoute = {
+  stops: [
+    { location: "TST BOCES, 555 Warren Road, Northeast Ithaca, NY 14850", coords: { lat: 42.4808, lng: -76.4570 } },
+    { location: "Dewitt Middle School, 560 Warren Road, Ithaca, NY 14850", coords: { lat: 42.4803, lng: -76.4566 } },
+    { location: "Northeast Elementary School, 425 Winthrop Dr, Ithaca, NY 14850", coords: { lat: 42.4775, lng: -76.4647 } },
+    { location: "Cayuga Heights Elementary School, 110 E Upland Rd, Ithaca, NY 14850", coords: { lat: 42.4697, lng: -76.4791 } },
+    { location: "Belle Sherman Elementary School, Valley Road, Ithaca, NY 14853", coords: { lat: 42.4478, lng: -76.4766 } },
+    { location: "Caroline Elementary School, Slaterville Road, Besemer, NY 14881", coords: { lat: 42.3839, lng: -76.4165 } },
+    { location: "South Hill Elementary School, 520 Hudson Street, Ithaca, NY 14850", coords: { lat: 42.4336, lng: -76.4950 } },
+    { location: "Beverly J. Martin Elementary School, 302 West Buffalo Street, Ithaca, NY", coords: { lat: 42.4422, lng: -76.4976 } },
+    { location: "Fall Creek School, Linn Street, Ithaca, NY 14850", coords: { lat: 42.4527, lng: -76.4869 } },
+    { location: "Boynton Middle School, 1601 North Cayuga Street, Ithaca, NY 14850", coords: { lat: 42.4624, lng: -76.4921 } },
+    { location: "TST BOCES, 555 Warren Road, Ithaca, NY 14850", coords: { lat: 42.4808, lng: -76.4570 } },
+    { location: "602 Hancock Street, Ithaca, NY 14850", coords: { lat: 42.4445, lng: -76.5097 } },
+    { location: "Enfield School, 20 Enfield Main Road, Ithaca, NY 14850", coords: { lat: 42.4436, lng: -76.5491 } },
+    { location: "Lehmann Alternative Community School, 111 Chestnut Street, Ithaca, NY", coords: { lat: 42.4506, lng: -76.5150 } },
+    { location: "Recycling and Solid Waste Center, 160 Commercial Avenue, Ithaca, NY", coords: { lat: 42.4461, lng: -76.5138 } }
+  ],
+  maintainOrder: true,
+  currentFuel: "Full",
+  time: "8h 00m",
+  vehicleNumber: "BUS-001"
+};
+
 const ExplorePage = () => {
   const [formData, setFormData] = useState({
     stops: [
@@ -127,6 +152,14 @@ const ExplorePage = () => {
     }
   };
 
+  const loadPresetRoute = () => {
+    setFormData(presetRoute);
+    // Since we have all coordinates, we can immediately get the route
+    getMultiStopRoute(presetRoute.stops).then(routeData => {
+      setRoute(routeData);
+      setIsMapView(true);
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -144,6 +177,17 @@ const ExplorePage = () => {
               Back
             </Link>
             <h1 className="text-3xl text-black font-bold mb-8">Explore Routes</h1>
+
+            {/* Add preset route button */}
+            <div className="mb-6 flex justify-end">
+              <button
+                onClick={loadPresetRoute}
+                className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
+              >
+                Load Sample School Bus Route
+              </button>
+            </div>
+
             <div className="bg-white rounded-lg shadow-md p-6">
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Stops Section */}
