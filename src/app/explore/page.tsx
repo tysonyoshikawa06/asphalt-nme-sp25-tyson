@@ -268,7 +268,7 @@ const ExplorePage = () => {
                 onClick={loadPresetRoute}
                 className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
               >
-                Load Sample School Bus Route
+                Load Sample Schools Route
               </button>
             </div>
 
