@@ -15,10 +15,17 @@ interface Place {
 interface PlacesAutocompleteProps {
   value: string;
   onChange: (value: string) => void;
-  onSelect: (place: { formatted_address: string; geometry: { location: { lat: number; lng: number } } }) => void;
+  onSelect: (place: {
+    formatted_address: string;
+    geometry: { location: { lat: number; lng: number } };
+  }) => void;
 }
 
-const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({ value, onChange, onSelect }) => {
+const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
+  value,
+  onChange,
+  onSelect,
+}) => {
   const [suggestions, setSuggestions] = useState<Place[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,12 +62,12 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({ value, onChange
         clearTimeout(timeoutId);
 
         if (!response.ok) throw new Error('Search failed');
-        
+
         const data = await response.json();
         cache.current[query] = data; // Cache the results
         setSuggestions(data);
       } catch (error) {
-        if (error.name === 'AbortError') {
+        if ((error as Error).name === 'AbortError') {
           console.log('Search request timed out');
         } else {
           console.error('Error fetching places:', error);
@@ -80,7 +87,10 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({ value, onChange
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -96,9 +106,9 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({ value, onChange
       geometry: {
         location: {
           lat: parseFloat(place.lat),
-          lng: parseFloat(place.lon)
-        }
-      }
+          lng: parseFloat(place.lon),
+        },
+      },
     });
     setIsOpen(false);
   };
@@ -110,13 +120,13 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({ value, onChange
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        setSelectedIndex(prev => 
+        setSelectedIndex((prev) =>
           prev < suggestions.length - 1 ? prev + 1 : prev
         );
         break;
       case 'ArrowUp':
         e.preventDefault();
-        setSelectedIndex(prev => prev > -1 ? prev - 1 : prev);
+        setSelectedIndex((prev) => (prev > -1 ? prev - 1 : prev));
         break;
       case 'Enter':
         e.preventDefault();

@@ -19,7 +19,10 @@ export default function Navbar() {
 
         {/* Hamburger Icon for Mobile */}
         <div className="md:hidden">
-          <button onClick={toggleMenu} className="text-white focus:outline-none">
+          <button
+            onClick={toggleMenu}
+            className="text-white focus:outline-none"
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -48,23 +51,33 @@ export default function Navbar() {
 
         {/* Links for Desktop and Mobile */}
         <div
-          className={`${isOpen ? 'block' : 'hidden'
-            } w-full md:w-auto md:flex items-center`}
+          className={`${
+            isOpen ? 'block' : 'hidden'
+          } w-full md:w-auto md:flex items-center`}
         >
           <ul className="flex flex-col md:flex-row md:space-x-6 text-white">
             <li>
-              <Link href="/" className="block py-2 px-4 hover:bg-gray-700 rounded-md">
+              <Link
+                href="/"
+                className="block py-2 px-4 hover:bg-gray-700 rounded-md"
+              >
                 Home
               </Link>
             </li>
 
             <li>
-              <Link href="/explore" className="block py-2 px-4 hover:bg-gray-700 rounded-md">
+              <Link
+                href="/explore"
+                className="block py-2 px-4 hover:bg-gray-700 rounded-md"
+              >
                 Explore
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="block py-2 px-4 hover:bg-gray-700 rounded-md">
+              <Link
+                href="/contact"
+                className="block py-2 px-4 hover:bg-gray-700 rounded-md"
+              >
                 Contact
               </Link>
             </li>
