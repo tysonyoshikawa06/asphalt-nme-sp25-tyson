@@ -1,71 +1,77 @@
 import Image from 'next/image';
 import Navbar from './components/Navbar';
 import Link from 'next/link';
-import Explore from './explore/page';
+import { FaLeaf, FaChartLine, FaCog } from 'react-icons/fa';
+
 export default function HomePage() {
   return (
-    <>
+    <main className="min-h-screen bg-white">
       <Navbar />
-      <div className="max-w-screen-full mx-auto  text-white">
-        {/* Flex layout for larger text and image side-by-side */}
-        <section className="mb-24 flex flex-col p-8 md:flex-row items-center bg-gradient-to-b from-gray-800 to-green-900">
-          {/* Left side with much larger text */}
+      <div className="max-w-screen-full mx-auto">
+        {/* Hero Section */}
+        <section className="mb-24 flex flex-col p-8 md:flex-row items-center bg-gradient-to-br from-white via-green-50 to-green-100">
           <div className="md:w-1/2 p-4 text-left">
-            <h1 className="text-7xl font-bold mb-8">
-              Asphalt: Optimizing Routes, Minimizing Emissions
+            <h1 className="text-7xl font-bold mb-8 animate-fade-in-down text-gray-800">
+              Asphalt: <span className="text-green-600">Optimizing</span> Routes,
+              <br />
+              <span className="text-green-500">Minimizing</span> Emissions
             </h1>
-            <p style={{ fontFamily: 'Open Sans, sans-serif' }}>
+            <p className="text-xl text-gray-600 animate-fade-in-up" style={{ fontFamily: 'Open Sans, sans-serif' }}>
               Experience the future of sustainable transportation with our
               cutting-edge GIS-powered route planning solutions.
             </p>
-            {/* Buttons below the text */}
-            <div className="flex space-x-4 mt-4">
+            <div className="flex space-x-4 mt-8">
               <Link href="/explore">
-                <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transform transition-all hover:scale-105">
                   Explore Routes
                 </button>
               </Link>
               <Link href="/">
-                <button className="border border-white text-white font-bold py-2 px-4 rounded">
+                <button className="border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-bold py-3 px-6 rounded-lg transform transition-all hover:scale-105">
                   Contact Us
                 </button>
               </Link>
             </div>
           </div>
 
-          {/* Right side with a larger image */}
           <div className="md:w-1/2 p-4">
-            <img
-              src="https://images.unsplash.com/photo-1465447142348-e9952c393450?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cm9hZHxlbnwwfHwwfHx8MA%3D%3D"
-              alt="Ithaca Commons"
-              className="w-full h-[500px] rounded-md shadow-lg"
-            />
+            <div className="relative overflow-hidden rounded-lg transform hover:scale-105 transition-transform duration-300">
+              <img
+                src="https://images.unsplash.com/photo-1465447142348-e9952c393450?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cm9hZHxlbnwwfHwwfHx8MA%3D%3D"
+                alt="Ithaca Commons"
+                className="w-full h-[500px] object-cover rounded-lg shadow-2xl"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
+            </div>
           </div>
         </section>
-        <section className="eco-section py-10 bg-white text-gray-900">
-          <h2 className="text-center text-3xl font-bold mb-8">
-            Using GIS for Eco-Friendly Paths
+
+        {/* Eco Section */}
+        <section className="eco-section py-16 bg-gradient-to-b from-white to-green-50">
+          <h2 className="text-center text-4xl font-bold mb-12 text-gray-800">
+            Using <span className="text-green-600">GIS</span> for Eco-Friendly Paths
           </h2>
-          <div className="flex justify-around space-x-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <h2 className="font-semibold text-3xl mb-2">Real-Time Data</h2>
-              <p>
+          <div className="flex flex-col md:flex-row justify-around space-y-8 md:space-y-0 md:space-x-8 max-w-6xl mx-auto px-4">
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <FaChartLine className="text-green-600 text-4xl mb-4 mx-auto" />
+              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">Real-Time Data</h2>
+              <p className="text-gray-600 text-center">
                 Our GIS platform integrates live traffic, weather, and
                 infrastructure data to plan the most efficient routes.
               </p>
             </div>
-            <div className="text-center">
-              <h2 className="font-semibold text-3xl mb-2">
-                Emissions Reduction
-              </h2>
-              <p>
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <FaLeaf className="text-green-600 text-4xl mb-4 mx-auto" />
+              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">Emissions Reduction</h2>
+              <p className="text-gray-600 text-center">
                 By optimizing routes, we help minimize fuel consumption and
                 greenhouse gas emissions for a sustainable future.
               </p>
             </div>
-            <div className="text-center">
-              <h2 className="text-3xl font-semibold mb-2">Customizable </h2>
-              <p>
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <FaCog className="text-green-600 text-4xl mb-4 mx-auto" />
+              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">Customizable</h2>
+              <p className="text-gray-600 text-center">
                 Tailor our route planning tools to your unique needs and
                 preferences for maximum impact.
               </p>
@@ -73,21 +79,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* <div className="explore-section py-16">
-          <h2 className="text-center text-3xl font-bold mb-8">Explore Our Road Network</h2>
-          <div className="flex items-center justify-around max-w-4xl mx-auto">
-            <div>
-              <ol className="list-decimal pl-5 text-lg">
-                <li><strong>Visualize:</strong> Gain a comprehensive view of the transportation infrastructure in your area.</li>
-                <li><strong>Analyze:</strong> Identify bottlenecks, alternative routes, and opportunities for optimization.</li>
-                <li><strong>Optimize:</strong> Plan the most efficient, eco-friendly paths for your fleet or personal commute.</li>
-              </ol>
-            </div>
-            <div>
-              <Image src="/map-image.png" alt="Map Visualization" width={300} height={400} />
-            </div>
-          </div>
-        </div> */}
         {/* Container for "Get Started" and Stepper Section */}
         <div className="flex flex-col md:flex-row items-center justify-center mt-20 pb-40 bg-white text-black">
           {/* "Get Started" section */}
@@ -197,12 +188,12 @@ export default function HomePage() {
           </section>
         </div>
         {/* Contact Section */}
-        <section className="py-16 bg-gray-900 text-white">
+        <section className="py-16 bg-gradient-to-br from-green-50 via-green-100 to-white">
           <div className="max-w-4xl mx-auto text-center px-4">
-            <h2 className="text-4xl font-bold mb-8">
-              Ready to Optimize Your Routes?
+            <h2 className="text-5xl font-bold mb-8 text-gray-800">
+              Ready to <span className="text-green-600">Optimize</span> Your Routes?
             </h2>
-            <p className="mb-8 text-lg">
+            <p className="mb-8 text-gray-800">
               Join several other organizations already using Asphalt to reduce
               their carbon footprint.
             </p>
@@ -215,21 +206,21 @@ export default function HomePage() {
         </section>
 
         {/* Footer */}
-        <footer className="bg-gray-800 text-gray-300 py-12">
+        <footer className="bg-gray-50 text-gray-600 py-12">
           <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
-              <h3 className="text-white text-lg font-bold mb-4">Asphalt</h3>
+              <h3 className="text-gray-800 text-lg font-bold mb-4">Asphalt</h3>
               <p className="text-sm">
                 Optimizing routes for a sustainable future.
               </p>
             </div>
             <div>
-              <h4 className="text-white font-semibold mb-4">Quick Links</h4>
+              <h4 className="text-gray-800 font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
                 <li>
                   <Link
                     href="/explore"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-gray-800 transition-colors"
                   >
                     Explore
                   </Link>
@@ -237,7 +228,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="/about"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-gray-800 transition-colors"
                   >
                     About Us
                   </Link>
@@ -245,7 +236,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="/contact"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-gray-800 transition-colors"
                   >
                     Contact
                   </Link>
@@ -254,28 +245,61 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h4 className="text-white font-semibold mb-4">Contact Us</h4>
+              <h4 className="text-gray-800 font-semibold mb-4">Contact Us</h4>
               <p className="text-sm">Email: info@asphalt.com</p>
               <div className="mt-4 space-x-4">
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="hover:text-gray-800 transition-colors">
                   Twitter
                 </a>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="hover:text-gray-800 transition-colors">
                   LinkedIn
                 </a>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="hover:text-gray-800 transition-colors">
                   GitHub
                 </a>
               </div>
             </div>
           </div>
-          <div className="max-w-6xl mx-auto px-4 mt-8 pt-8 border-t border-gray-700">
+          <div className="max-w-6xl mx-auto px-4 mt-8 pt-8 border-t border-gray-200">
             <p className="text-sm text-center">
               © {new Date().getFullYear()} Asphalt. All rights reserved.
             </p>
           </div>
         </footer>
       </div>
-    </>
+    </main>
   );
 }
+
+// Add these styles to your global.css
+/*
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 1s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out;
+}
+*/ 
