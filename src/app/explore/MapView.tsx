@@ -32,8 +32,13 @@ const convertUnits = {
     milesToKm: (miles: number) => (miles / 0.621371).toFixed(1),
   },
   emissions: {
-    kgToTrees: (kg: number) => (kg * 0.0834).toFixed(1), // Approximate: 1 tree absorbs ~12kg CO2 per year
+    kgToLbs: (kg: number) => (kg * 2.20462).toFixed(1),
+    kgToTrees: (kg: number) => (kg * 0.0834).toFixed(1),
     treesToKg: (trees: number) => (trees / 0.0834).toFixed(1),
+  },
+  cost: {
+    // Only use per km cost, removing perMile
+    perKm: 0.15, // $0.15 per km
   },
 };
 
@@ -190,9 +195,13 @@ const AnalyticsPanel = ({ isOpen, onClose, route, formData }: any) => {
   };
 
   const formatEmissions = (kgCO2: number) => {
-    return emissionsUnit === 'co2'
+    if (emissionsUnit === 'trees') {
+      return `${convertUnits.emissions.kgToTrees(kgCO2)} trees/year`;
+    }
+    // Convert to lbs if distance unit is miles
+    return distanceUnit === 'km'
       ? `${kgCO2} kg CO₂`
-      : `${convertUnits.emissions.kgToTrees(kgCO2)} trees/year`;
+      : `${convertUnits.emissions.kgToLbs(kgCO2)} lbs CO₂`;
   };
 
   const UnitToggle = ({
@@ -209,11 +218,10 @@ const AnalyticsPanel = ({ isOpen, onClose, route, formData }: any) => {
         <button
           key={option.value}
           onClick={() => onChange(option.value)}
-          className={`px-3 py-1 rounded-md text-sm ${
-            unit === option.value
+          className={`px-3 py-1 rounded-md text-sm ${unit === option.value
               ? 'bg-white shadow text-blue-600'
               : 'text-gray-600 hover:bg-gray-200'
-          }`}
+            }`}
         >
           {option.label}
         </button>
@@ -265,6 +273,18 @@ const AnalyticsPanel = ({ isOpen, onClose, route, formData }: any) => {
     URL.revokeObjectURL(url);
   };
 
+  // Calculate cost savings (always based on km)
+  const costPerKm = convertUnits.cost.perKm;
+  const originalCost = originalDistance * costPerKm;
+  const optimizedCost = optimizedDistance * costPerKm;
+  const costSaved = originalCost - optimizedCost;
+
+  // Format cost with currency
+  const formatCost = (amount: number) => {
+    return `$${amount.toFixed(2)}`;
+  };
+
+  // Update the emissions impact section to include cost savings
   return (
     <div
       className={`fixed right-0 top-0 h-full w-96 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-[1001] flex flex-col ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
@@ -315,11 +335,11 @@ const AnalyticsPanel = ({ isOpen, onClose, route, formData }: any) => {
             />
           </div>
 
-          {/* Enhanced Emissions Summary */}
+          {/* Updated Emissions Summary */}
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-100">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-semibold text-green-800">
-                Emissions Impact
+                Impact Summary
               </h3>
               <svg
                 className="h-8 w-8 text-green-600"
@@ -343,9 +363,21 @@ const AnalyticsPanel = ({ isOpen, onClose, route, formData }: any) => {
                 </p>
               </div>
               <div className="bg-white bg-opacity-50 rounded-lg p-3">
-                <p className="text-sm text-green-600 mb-1">Savings</p>
+                <p className="text-sm text-green-600 mb-1">Emissions Saved</p>
                 <p className="text-2xl font-bold text-green-700">
                   {formatEmissions(emissionsSaved)}
+                </p>
+              </div>
+            </div>
+            {/* Add Cost Savings */}
+            <div className="bg-white bg-opacity-50 rounded-lg p-3 mb-4">
+              <p className="text-sm text-green-600 mb-1">Cost Savings</p>
+              <div className="flex justify-between items-baseline">
+                <p className="text-2xl font-bold text-green-700">
+                  {formatCost(costSaved)}
+                </p>
+                <p className="text-sm text-green-600">
+                  from {formatCost(originalCost)} to {formatCost(optimizedCost)}
                 </p>
               </div>
             </div>
@@ -449,7 +481,7 @@ const MapView = ({ formData, route, startCoords, endCoords, onBack }: any) => {
   const [isAnalyticsPanelOpen, setIsAnalyticsPanelOpen] = useState(false);
 
   const getMarkerColor = (index: number, total: number) => {
-    if (index === 0) return 'blue';
+    if (index === 0 || index === 1) return 'blue';
     if (index === total - 1) return 'red';
     return 'orange';
   };
