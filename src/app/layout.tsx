@@ -14,7 +14,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: 'Asphalt',
-  description: 'Optimizing routes, minimizing emissions.',
+  description: 'Smarter routes, greener future',
 };
 
 export default function RootLayout({

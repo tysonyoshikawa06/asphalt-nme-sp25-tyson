@@ -11,14 +11,22 @@ export default function HomePage() {
         {/* Hero Section */}
         <section className="mb-24 flex flex-col p-8 md:flex-row items-center bg-gradient-to-br from-white via-green-50 to-green-100">
           <div className="md:w-1/2 p-4 text-left">
-            <h1 className="text-7xl font-bold mb-8 animate-fade-in-down text-gray-800">
-              Asphalt: <span className="text-green-600">Optimizing</span> Routes,
+            <h1 className="text-7xl font-extrabold mb-8 animate-fade-in-down text-gray-800">
+              ASPHALT
               <br />
-              <span className="text-green-500">Minimizing</span> Emissions
+              <div className="font-medium text-6xl">
+                <span className="text-green-600">Smarter</span> Routes,
+                <br />
+                Greener <span className="text-green-600">Future</span>
+              </div>
             </h1>
-            <p className="text-xl text-gray-600 animate-fade-in-up" style={{ fontFamily: 'Open Sans, sans-serif' }}>
-              Experience the future of sustainable transportation with our
-              cutting-edge GIS-powered route planning solutions.
+            <p
+              className="text-xl text-gray-600 animate-fade-in-up"
+              style={{ fontFamily: 'Open Sans, sans-serif' }}
+            >
+              Harnessing GIS technology to optimize transportation,
+              <br />
+              reduce emissions, and drive sustainable progress
             </p>
             <div className="flex space-x-4 mt-8">
               <Link href="/explore">
@@ -28,7 +36,7 @@ export default function HomePage() {
               </Link>
               <Link href="/">
                 <button className="border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-bold py-3 px-6 rounded-lg transform transition-all hover:scale-105">
-                  Contact Us
+                  About Us
                 </button>
               </Link>
             </div>
@@ -49,12 +57,15 @@ export default function HomePage() {
         {/* Eco Section */}
         <section className="eco-section py-16 bg-gradient-to-b from-white to-green-50">
           <h2 className="text-center text-4xl font-bold mb-12 text-gray-800">
-            Using <span className="text-green-600">GIS</span> for Eco-Friendly Paths
+            Using <span className="text-green-600">GIS</span> for Eco-Friendly
+            Paths
           </h2>
           <div className="flex flex-col md:flex-row justify-around space-y-8 md:space-y-0 md:space-x-8 max-w-6xl mx-auto px-4">
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
               <FaChartLine className="text-green-600 text-4xl mb-4 mx-auto" />
-              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">Real-Time Data</h2>
+              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">
+                Real-Time Data
+              </h2>
               <p className="text-gray-600 text-center">
                 Our GIS platform integrates live traffic, weather, and
                 infrastructure data to plan the most efficient routes.
@@ -62,7 +73,9 @@ export default function HomePage() {
             </div>
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
               <FaLeaf className="text-green-600 text-4xl mb-4 mx-auto" />
-              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">Emissions Reduction</h2>
+              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">
+                Emissions Reduction
+              </h2>
               <p className="text-gray-600 text-center">
                 By optimizing routes, we help minimize fuel consumption and
                 greenhouse gas emissions for a sustainable future.
@@ -70,7 +83,9 @@ export default function HomePage() {
             </div>
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
               <FaCog className="text-green-600 text-4xl mb-4 mx-auto" />
-              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">Customizable</h2>
+              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">
+                Customizable
+              </h2>
               <p className="text-gray-600 text-center">
                 Tailor our route planning tools to your unique needs and
                 preferences for maximum impact.
@@ -191,7 +206,8 @@ export default function HomePage() {
         <section className="py-16 bg-gradient-to-br from-green-50 via-green-100 to-white">
           <div className="max-w-4xl mx-auto text-center px-4">
             <h2 className="text-5xl font-bold mb-8 text-gray-800">
-              Ready to <span className="text-green-600">Optimize</span> Your Routes?
+              Ready to <span className="text-green-600">Optimize</span> Your
+              Routes?
             </h2>
             <p className="mb-8 text-gray-800">
               Join several other organizations already using Asphalt to reduce
@@ -302,4 +318,4 @@ export default function HomePage() {
 .animate-fade-in-up {
   animation: fade-in-up 1s ease-out;
 }
-*/ 
+*/
