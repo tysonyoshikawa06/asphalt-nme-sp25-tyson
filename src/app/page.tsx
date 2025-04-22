@@ -12,9 +12,9 @@ export default function HomePage() {
         <section className="mb-24 flex flex-col p-8 md:flex-row items-center bg-gradient-to-br from-white via-green-50 to-green-100">
           <div className="md:w-1/2 p-4 text-left">
             <h1 className="text-7xl font-extrabold mb-8 animate-fade-in-down text-gray-800">
-              ASPHALT
+              <span className="poppins-extrabold">ASPHALT</span>
               <br />
-              <div className="font-medium text-6xl">
+              <div className="poppins-medium text-6xl">
                 <span className="text-green-600">Smarter</span> Routes,
                 <br />
                 Greener <span className="text-green-600">Future</span>
@@ -24,9 +24,9 @@ export default function HomePage() {
               className="text-xl text-gray-600 animate-fade-in-up"
               style={{ fontFamily: 'Open Sans, sans-serif' }}
             >
-              Harnessing GIS technology to optimize transportation,
+              Driving change with data: Smarter transport, lower
               <br />
-              reduce emissions, and drive sustainable progress
+              emissions, lasting impact
             </p>
             <div className="flex space-x-4 mt-8">
               <Link href="/explore">
@@ -53,6 +53,106 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* Container for "Get Started" and Stepper Section */}
+        <div className="flex flex-col md:flex-row items-center justify-center mt-20 pb-40 bg-white text-black">
+          {/* "Get Started" section */}
+          <div
+            id="get-started"
+            className="p-4 text-left md:w-auto flex justify-center"
+          >
+            <div>
+              <img className="h-[500px]" src="/images/image.png"></img>
+              <p
+                style={{ fontFamily: 'Open Sans, sans-serif' }}
+                className="mt-4"
+              ></p>
+            </div>
+          </div>
+
+          {/* Stepper Section */}
+          <section className="w-full md:w-auto ml-16">
+            <h1 className="poppins-bold text-center text-[48px] font-bold mb-8">
+              Explore Our Road Network
+            </h1>
+            <div className="relative max-w-4xl mx-auto">
+              {/* Vertical Line */}
+              <div className="absolute left-5 top-0 h-full w-px bg-gray-300"></div>
+
+              {/* Step 1 */}
+              <Link href="/">
+                <div className="flex items-center mb-8 relative cursor-pointer">
+                  {/* Number 1 */}
+                  <div className="flex-shrink-0 w-10 h-10 bg-gray-700 text-white rounded-md flex items-center justify-center text-lg font-semibold">
+                    1
+                  </div>
+
+                  {/* Horizontal line to text */}
+                  <div className="h-px w-16 bg-gray-300 absolute left-10 top-1/2 transform -translate-y-1/2"></div>
+
+                  {/* Step content */}
+                  <div className="ml-24">
+                    <h2 className="poppins-semibold text-3xl hover:text-gray-500 transition-colors duration-300">
+                      Visualize
+                    </h2>
+                    <p className="mt-2 text-xl poppins-medium text-gray-700 transition-colors duration-300">
+                      Gain a comprehensive view of the transportation
+                      infrastructure in your area.
+                    </p>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Step 2 */}
+              <Link href="/">
+                <div className="flex items-center mb-8 relative cursor-pointer">
+                  {/* Number 2 */}
+                  <div className="flex-shrink-0 w-10 h-10 bg-gray-700 text-white rounded-md flex items-center justify-center text-lg font-semibold">
+                    2
+                  </div>
+
+                  {/* Horizontal line to text */}
+                  <div className="h-px w-16 bg-gray-300 absolute left-10 top-1/2 transform -translate-y-1/2"></div>
+
+                  {/* Step content */}
+                  <div className="ml-24">
+                    <h2 className="poppins-semibold text-3xl hover:text-gray-500 transition-colors duration-300">
+                      Analyze
+                    </h2>
+                    <p className="mt-2 text-xl poppins-medium text-gray-700 transition-colors duration-300">
+                      Identify bottlenecks, alternative routes, and
+                      opportunities for optimization.
+                    </p>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Step 3 */}
+              <Link href="/">
+                <div className="flex items-center mb-8 relative cursor-pointer">
+                  {/* Number 3 */}
+                  <div className="flex-shrink-0 w-10 h-10 bg-gray-700 text-white rounded-md flex items-center justify-center text-lg font-semibold">
+                    3
+                  </div>
+
+                  {/* Horizontal line to text */}
+                  <div className="h-px w-16 bg-gray-300 absolute left-10 top-1/2 transform -translate-y-1/2"></div>
+
+                  {/* Step content */}
+                  <div className="ml-24">
+                    <h2 className="text-3xl font-bold hover:text-gray-500 transition-colors duration-300">
+                      Optimize
+                    </h2>
+                    <p className="mt-2 text-xl poppins-medium text-gray-700 transition-colors duration-300">
+                      Plan the most efficient, eco-friendly paths for your fleet
+                      or personal commute.
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </section>
+        </div>
 
         {/* Eco Section */}
         <section className="eco-section py-16 bg-gradient-to-b from-white to-green-50">
@@ -94,114 +194,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Container for "Get Started" and Stepper Section */}
-        <div className="flex flex-col md:flex-row items-center justify-center mt-20 pb-40 bg-white text-black">
-          {/* "Get Started" section */}
-          <div
-            id="get-started"
-            className="p-4 text-left md:w-auto flex justify-center"
-          >
-            <div>
-              <img className="h-[500px]" src="/images/image.png"></img>
-              <p
-                style={{ fontFamily: 'Open Sans, sans-serif' }}
-                className="mt-4"
-              ></p>
-            </div>
-          </div>
-
-          {/* Stepper Section */}
-          <section className="w-full md:w-auto ml-16">
-            <h1 className="text-center text-4xl font-bold mb-8">
-              Explore Our Road Network
-            </h1>
-            <div className="relative max-w-4xl mx-auto">
-              {/* Vertical Line */}
-              <div className="absolute left-5 top-0 h-full w-px bg-gray-300"></div>
-
-              {/* Step 1 */}
-              <Link href="/">
-                <div className="flex items-center mb-8 relative cursor-pointer">
-                  {/* Number 1 */}
-                  <div className="flex-shrink-0 w-10 h-10 bg-gray-700 text-white rounded-md flex items-center justify-center text-lg font-semibold">
-                    1
-                  </div>
-
-                  {/* Horizontal line to text */}
-                  <div className="h-px w-16 bg-gray-300 absolute left-10 top-1/2 transform -translate-y-1/2"></div>
-
-                  {/* Step content */}
-                  <div className="ml-24">
-                    <h2 className="text-3xl font-bold hover:text-gray-500 transition-colors duration-300">
-                      Visualize
-                    </h2>
-                    <p
-                      style={{ fontFamily: 'Open Sans, sans-serif' }}
-                      className="mt-2 text-gray-700 transition-colors duration-300"
-                    >
-                      Gain a comprehensive view of the transportation
-                      infrastructure in your area.
-                    </p>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Step 2 */}
-              <Link href="/">
-                <div className="flex items-center mb-8 relative cursor-pointer">
-                  {/* Number 2 */}
-                  <div className="flex-shrink-0 w-10 h-10 bg-gray-700 text-white rounded-md flex items-center justify-center text-lg font-semibold">
-                    2
-                  </div>
-
-                  {/* Horizontal line to text */}
-                  <div className="h-px w-16 bg-gray-300 absolute left-10 top-1/2 transform -translate-y-1/2"></div>
-
-                  {/* Step content */}
-                  <div className="ml-24">
-                    <h2 className="text-3xl font-bold hover:text-gray-500 transition-colors duration-300">
-                      Analyze
-                    </h2>
-                    <p
-                      style={{ fontFamily: 'Open Sans, sans-serif' }}
-                      className="mt-2 text-gray-700 transition-colors duration-300"
-                    >
-                      Identify bottlenecks, alternative routes, and
-                      opportunities for optimization.
-                    </p>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Step 3 */}
-              <Link href="/">
-                <div className="flex items-center mb-8 relative cursor-pointer">
-                  {/* Number 3 */}
-                  <div className="flex-shrink-0 w-10 h-10 bg-gray-700 text-white rounded-md flex items-center justify-center text-lg font-semibold">
-                    3
-                  </div>
-
-                  {/* Horizontal line to text */}
-                  <div className="h-px w-16 bg-gray-300 absolute left-10 top-1/2 transform -translate-y-1/2"></div>
-
-                  {/* Step content */}
-                  <div className="ml-24">
-                    <h2 className="text-3xl font-bold hover:text-gray-500 transition-colors duration-300">
-                      Optimize
-                    </h2>
-                    <p
-                      style={{ fontFamily: 'Open Sans, sans-serif' }}
-                      className="mt-2 text-gray-700 transition-colors duration-300"
-                    >
-                      Plan the most efficient, eco-friendly paths for your fleet
-                      or personal commute.
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          </section>
-        </div>
         {/* Contact Section */}
         <section className="py-16 bg-gradient-to-br from-green-50 via-green-100 to-white">
           <div className="max-w-4xl mx-auto text-center px-4">

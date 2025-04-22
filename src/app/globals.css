@@ -17,7 +17,28 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins-regular);
+  font-size: 20px;
+}
+
+.poppins-bold {
+  font-family: var(--font-poppins-bold);
+  font-weight: 700;
+}
+
+.poppins-medium {
+  font-family: var(--font-poppins-medium);
+  font-weight: 500;
+}
+
+.poppins-extrabold {
+  font-family: var(--font-poppins-extrabold);
+  font-weight: 800;
+}
+
+.poppins-semibold {
+  font-family: var(--font-poppins-semibold);
+  font-weight: 600;
 }
 
 @layer utilities {
