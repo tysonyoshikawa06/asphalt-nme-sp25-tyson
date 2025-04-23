@@ -9,7 +9,7 @@ export default function HomePage() {
       <Navbar />
       <div className="max-w-screen-full mx-auto">
         {/* Hero Section */}
-        <section className="mb-24 flex flex-col p-8 md:flex-row items-center bg-gradient-to-br from-white via-green-50 to-green-100">
+        <section className="mb-24 flex flex-col p-8 md:flex-row items-center bg-gradient-to-b from-white via-[rgba(25,183,83,0.1)] to-[rgba(25,183,83,0.3)]">
           <div className="md:w-1/2 p-4 text-left">
             <h1 className="text-7xl font-extrabold mb-8 animate-fade-in-down text-gray-800">
               <span className="poppins-extrabold">ASPHALT</span>
@@ -20,22 +20,19 @@ export default function HomePage() {
                 Greener <span className="text-green-600">Future</span>
               </div>
             </h1>
-            <p
-              className="text-xl text-gray-600 animate-fade-in-up"
-              style={{ fontFamily: 'Open Sans, sans-serif' }}
-            >
+            <p className="text-xl text-gray-600 animate-fade-in-up">
               Driving change with data: Smarter transport, lower
               <br />
               emissions, lasting impact
             </p>
             <div className="flex space-x-4 mt-8">
               <Link href="/explore">
-                <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transform transition-all hover:scale-105">
+                <button className="bg-green-600 hover:bg-green-700 text-white poppins-bold tx-xl py-3 px-6 rounded-lg transform transition-all hover:scale-105">
                   Explore Routes
                 </button>
               </Link>
               <Link href="/">
-                <button className="border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-bold py-3 px-6 rounded-lg transform transition-all hover:scale-105">
+                <button className="border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white poppins-bold text-xl py-3 px-6 rounded-lg transform transition-all hover:scale-105">
                   About Us
                 </button>
               </Link>
@@ -55,14 +52,17 @@ export default function HomePage() {
         </section>
 
         {/* Container for "Get Started" and Stepper Section */}
-        <div className="flex flex-col md:flex-row items-center justify-center mt-20 pb-40 bg-white text-black">
+        <div className="flex flex-col md:flex-row items-center justify-center px-8 md:px-16 lg:px-24 mt-8 pb-40 bg-white text-black">
           {/* "Get Started" section */}
           <div
             id="get-started"
             className="p-4 text-left md:w-auto flex justify-center"
           >
             <div>
-              <img className="h-[500px]" src="/images/image.png"></img>
+              <img
+                className="w-[480px] h-[550px] rounded-lg"
+                src="/images/image.png"
+              ></img>
               <p
                 style={{ fontFamily: 'Open Sans, sans-serif' }}
                 className="mt-4"
@@ -77,19 +77,18 @@ export default function HomePage() {
             </h1>
             <div className="relative max-w-4xl mx-auto">
               {/* Vertical Line */}
-              <div className="absolute left-5 top-0 h-full w-px bg-gray-300"></div>
+              <div className="absolute left-[33px] top-[34px] h-[calc(100%-68px)] w-px bg-gray-300"></div>
 
               {/* Step 1 */}
               <Link href="/">
                 <div className="flex items-center mb-8 relative cursor-pointer">
                   {/* Number 1 */}
-                  <div className="flex-shrink-0 w-10 h-10 bg-gray-700 text-white rounded-md flex items-center justify-center text-lg font-semibold">
-                    1
+                  <div className="w-[67px] h-[68px] flex-shrink-0 bg-gray-700 rounded-md flex items-center justify-center text-lg font-semibold">
+                    <span className="text-3xl poppins-bold text-white">1</span>
                   </div>
 
                   {/* Horizontal line to text */}
-                  <div className="h-px w-16 bg-gray-300 absolute left-10 top-1/2 transform -translate-y-1/2"></div>
-
+                  <div className="h-px w-[39px] bg-gray-300 absolute left-[67px] top-1/2 transform -translate-y-1/2"></div>
                   {/* Step content */}
                   <div className="ml-24">
                     <h2 className="poppins-semibold text-3xl hover:text-gray-500 transition-colors duration-300">
@@ -107,12 +106,12 @@ export default function HomePage() {
               <Link href="/">
                 <div className="flex items-center mb-8 relative cursor-pointer">
                   {/* Number 2 */}
-                  <div className="flex-shrink-0 w-10 h-10 bg-gray-700 text-white rounded-md flex items-center justify-center text-lg font-semibold">
-                    2
+                  <div className="w-[67px] h-[68px] flex-shrink-0 bg-gray-700 rounded-md flex items-center justify-center text-lg font-semibold">
+                    <span className="text-3xl poppins-bold text-white">2</span>
                   </div>
 
                   {/* Horizontal line to text */}
-                  <div className="h-px w-16 bg-gray-300 absolute left-10 top-1/2 transform -translate-y-1/2"></div>
+                  <div className="h-px w-[39px] bg-gray-300 absolute left-[67px] top-1/2 transform -translate-y-1/2"></div>
 
                   {/* Step content */}
                   <div className="ml-24">
@@ -131,16 +130,16 @@ export default function HomePage() {
               <Link href="/">
                 <div className="flex items-center mb-8 relative cursor-pointer">
                   {/* Number 3 */}
-                  <div className="flex-shrink-0 w-10 h-10 bg-gray-700 text-white rounded-md flex items-center justify-center text-lg font-semibold">
-                    3
+                  <div className="w-[67px] h-[68px] flex-shrink-0 bg-gray-700 rounded-md flex items-center justify-center text-lg font-semibold">
+                    <span className="text-3xl poppins-bold text-white">3</span>
                   </div>
 
                   {/* Horizontal line to text */}
-                  <div className="h-px w-16 bg-gray-300 absolute left-10 top-1/2 transform -translate-y-1/2"></div>
+                  <div className="h-px w-[39px] bg-gray-300 absolute left-[67px] top-1/2 transform -translate-y-1/2"></div>
 
                   {/* Step content */}
                   <div className="ml-24">
-                    <h2 className="text-3xl font-bold hover:text-gray-500 transition-colors duration-300">
+                    <h2 className="poppins-semibold text-3xl hover:text-gray-500 transition-colors duration-300">
                       Optimize
                     </h2>
                     <p className="mt-2 text-xl poppins-medium text-gray-700 transition-colors duration-300">
@@ -155,59 +154,65 @@ export default function HomePage() {
         </div>
 
         {/* Eco Section */}
-        <section className="eco-section py-16 bg-gradient-to-b from-white to-green-50">
-          <h2 className="text-center text-4xl font-bold mb-12 text-gray-800">
-            Using <span className="text-green-600">GIS</span> for Eco-Friendly
-            Paths
-          </h2>
-          <div className="flex flex-col md:flex-row justify-around space-y-8 md:space-y-0 md:space-x-8 max-w-6xl mx-auto px-4">
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <FaChartLine className="text-green-600 text-4xl mb-4 mx-auto" />
-              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">
-                Real-Time Data
+        <section className="eco-section py-8">
+          <div className="flex flex-col md:flex-row justify-between max-w-6xl mx-auto px-4 gap-12">
+            <div className="bg-white p-6 rounded-xl shadow-[0_0_15px_rgba(0,0,0,.2)] transition-all duration-300 transform hover:-translate-y-2 w-full md:w-1/3">
+              <FaChartLine className="text-green-600 text-4xl mb-3 mx-auto" />
+              <h2 className="poppins-semibold text-3xl mb-3 text-center text-gray-800">
+                Data-Driven
               </h2>
               <p className="text-gray-600 text-center">
-                Our GIS platform integrates live traffic, weather, and
-                infrastructure data to plan the most efficient routes.
+                Our platform uses spatial data and operational patterns to
+                inform smarter route planning
               </p>
             </div>
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <FaLeaf className="text-green-600 text-4xl mb-4 mx-auto" />
-              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">
-                Emissions Reduction
+            <div className="bg-white p-6 rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 transform hover:-translate-y-2 w-full md:w-1/3">
+              <FaLeaf className="text-green-600 text-4xl mb-3 mx-auto" />
+              <h2 className="poppins-semibold text-3xl mb-3 text-center text-gray-800">
+                Sustainable
               </h2>
               <p className="text-gray-600 text-center">
-                By optimizing routes, we help minimize fuel consumption and
-                greenhouse gas emissions for a sustainable future.
+                Our platform minimizes fuel consumption and emissions through
+                intelligent routing
               </p>
             </div>
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <FaCog className="text-green-600 text-4xl mb-4 mx-auto" />
-              <h2 className="font-semibold text-3xl mb-4 text-center text-gray-800">
+            <div className="bg-white p-6 rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 transform hover:-translate-y-2 w-full md:w-1/3">
+              <FaCog className="text-green-600 text-4xl mb-3 mx-auto" />
+              <h2 className="poppins-semibold text-3xl mb-3 text-center text-gray-800">
                 Customizable
               </h2>
               <p className="text-gray-600 text-center">
-                Tailor our route planning tools to your unique needs and
-                preferences for maximum impact.
+                Our tools can be tailored to your workflow to ensure seamless
+                integration
               </p>
             </div>
           </div>
         </section>
 
         {/* Contact Section */}
-        <section className="py-16 bg-gradient-to-br from-green-50 via-green-100 to-white">
-          <div className="max-w-4xl mx-auto text-center px-4">
-            <h2 className="text-5xl font-bold mb-8 text-gray-800">
-              Ready to <span className="text-green-600">Optimize</span> Your
-              Routes?
+        <section className="py-24 relative overflow-hidden">
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(ellipse at center, rgba(25, 183, 83, 0.3) 0%, rgba(22,163,74,0.2) 30%, rgba(255,255,255,0) 60%)',
+              transform: 'scale(1.02)',
+              height: '102%',
+              top: '-1%',
+            }}
+          ></div>
+          <div className="max-w-4xl mx-auto text-center relative">
+            <h2 className="text-5xl poppins-bold mb-4 text-gray-800">
+              Start <span className="text-green-600">Optimizing</span> Your
+              Routes Today
             </h2>
             <p className="mb-8 text-gray-800">
-              Join several other organizations already using Asphalt to reduce
+              Join the growing number of organizations using Asphalt to reduce
               their carbon footprint.
             </p>
             <Link href="/contact">
-              <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-300">
-                Get Started Today
+              <button className="bg-green-600 hover:bg-green-700 text-white poppins-bold py-3 px-8 rounded-2xl text-base transition-colors duration-300">
+                Get Started
               </button>
             </Link>
           </div>
