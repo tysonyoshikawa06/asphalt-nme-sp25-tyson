@@ -26,7 +26,7 @@ export default function HomePage() {
                   Explore Routes
                 </button>
               </Link>
-              <Link href="/">
+              <Link href="/contact">
                 <button className="border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-bold py-3 px-6 rounded-lg transform transition-all hover:scale-105">
                   Contact Us
                 </button>
