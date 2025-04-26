@@ -10,9 +10,9 @@ export default function HomePage() {
       <Navbar />
       <div className="max-w-screen-full mx-auto">
         {/* Hero Section */}
-        <section className="mb-24 flex flex-col p-8 md:flex-row items-center bg-gradient-to-t from-[#D3F7E0] to-white">
+        <section className="mb-24 flex flex-col p-8 md:flex-row items-center justify-center h-[calc(100vh-8rem)] bg-gradient-to-t from-[#D3F7E0] to-white">
           <div className="md:w-1/2 p-12 text-left">
-            <div clas>
+            <div>
               <h1 className="text-7xl font-extrabold mb-8 animate-fade-in-down text-gray-900">
                 <span className="poppins-extrabold">ASPHALT</span>
                 <br />
@@ -55,7 +55,7 @@ export default function HomePage() {
         </section>
 
         {/* Container for "Get Started" and Stepper Section */}
-        <div className="flex flex-col md:flex-row items-center justify-center px-8 md:px-16 lg:px-24 mt-8 pb-40 bg-white text-black">
+        <div className="flex flex-col md:flex-row items-center justify-center px-8 md:px-16 lg:px-24 mt-8 pb-40 pt-12 bg-white text-black">
           {/* "Get Started" section */}
           <div
             id="get-started"
