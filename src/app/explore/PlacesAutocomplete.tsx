@@ -19,12 +19,14 @@ interface PlacesAutocompleteProps {
     formatted_address: string;
     geometry: { location: { lat: number; lng: number } };
   }) => void;
+  inputClassName?: string;
 }
 
 const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
   value,
   onChange,
   onSelect,
+  inputClassName,
 }) => {
   const [suggestions, setSuggestions] = useState<Place[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -153,15 +155,15 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
         }}
         onKeyDown={handleKeyDown}
         onFocus={() => setIsOpen(true)}
-        className={`w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+        className={`w-full p-3 border border-gray-400 rounded-md focus:ring-2 focus:ring-[#034626] focus:border-[#034626] text-lg text-black ${
           isLoading ? 'pr-10' : ''
-        }`}
+        } ${inputClassName || ''}`}
         placeholder="Search locations..."
       />
 
       {isLoading && (
         <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-          <div className="animate-spin h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full"></div>
+          <div className="animate-spin h-4 w-4 border-2 border-[#034626] border-t-transparent rounded-full"></div>
         </div>
       )}
 
@@ -171,7 +173,7 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
             <li
               key={index}
               onClick={() => handleSuggestionClick(place)}
-              className={`px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm ${
+              className={`px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-black ${
                 index === selectedIndex ? 'bg-blue-50' : ''
               }`}
             >

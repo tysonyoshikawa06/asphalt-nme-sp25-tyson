@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import PlacesAutocomplete from './PlacesAutocomplete';
 import Navbar from '../components/Navbar';
-import Link from 'next/link';
+import Footer from '../components/Footer';
 
 // Dynamically import the map component with no SSR
 const MapView = dynamic(() => import('./MapView'), {
@@ -118,14 +118,6 @@ const ExplorePage = () => {
   const startCoords = formData.stops[0]?.coords || null;
   const endCoords = formData.stops[formData.stops.length - 1]?.coords || null;
 
-  // interface FormData {
-  //   stops: Stop[];
-  //   maintainOrder: boolean;
-  //   currentFuel: string;
-  //   time: string;
-  //   vehicleNumber: string;
-  // }
-
   interface Place {
     formatted_address: string;
     geometry: {
@@ -171,19 +163,6 @@ const ExplorePage = () => {
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
-
-  // const searchLocation = async (query) => {
-  //   try {
-  //     const response = await fetch(
-  //       `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`
-  //     );
-  //     const data = await response.json();
-  //     return data.length > 0 ? { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) } : null;
-  //   } catch (error) {
-  //     console.error('Error searching location:', error);
-  //     return null;
-  //   }
-  // };
 
   interface Stop {
     location: string;
@@ -235,51 +214,31 @@ const ExplorePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {!isMapView ? (
-        // Form View
-        <div className="p-8">
-          <div className="max-w-4xl mx-auto">
-            <Link
-              href="/"
-              className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-4"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-1"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Back
-            </Link>
-            <h1 className="text-3xl text-black font-bold mb-8">
-              Explore Routes
-            </h1>
-
-            {/* Add preset route button */}
-            <div className="mb-6 flex justify-end">
-              <button
-                onClick={loadPresetRoute}
-                className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
-              >
-                Load Sample Schools Route
-              </button>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 flex flex-col">
+      {!isMapView && <Navbar />}
+      <div className="relative flex-1 flex flex-col justify-center items-center">
+        {/* Decorative Leaves */}
+        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute left-16 top-[23%] w-24 rotate-[-26deg] scale-x-[-1] z-0" />
+        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute left-24 top-[44%] w-20 rotate-[14deg] z-0" />
+        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute left-20 top-[66%] w-24 rotate-[-21deg] scale-x-[-1] z-0" />
+        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute right-16 top-[26%] w-24 rotate-[24deg] z-0" />
+        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute right-24 top-[46%] w-20 rotate-[-16deg] scale-x-[-1] z-0" />
+        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute right-20 top-[64%] w-24 rotate-[19deg] z-0" />
+        {/* Main Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center w-full py-8 pb-24">
+          {!isMapView ? (
+            <div className="w-full max-w-3xl mx-auto flex flex-col items-center">
+              <h1 className="text-5xl font-extrabold text-center mb-0 leading-tight">
+                <span className="asphalt-green">Explore</span> <span className="text-black">Your New Route to</span>
+              </h1>
+              <h2 className="text-5xl font-extrabold text-center mb-10 asphalt-green">Sustainability</h2>
+              <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-8">
                 {/* Stops Section */}
-                <div className="space-y-4 text-black">
+                <div className="w-full flex flex-col gap-4">
                   {formData.stops.map((stop, index) => (
-                    <div key={index} className="flex items-center gap-2">
+                    <div key={index} className="flex items-center gap-2 w-full">
                       <div className="flex-grow relative">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-base font-semibold text-black mb-1">
                           {index === 0
                             ? 'Start Location'
                             : index === formData.stops.length - 1
@@ -291,12 +250,11 @@ const ExplorePage = () => {
                           onChange={(value) => {
                             const newStops = [...formData.stops];
                             newStops[index].location = value;
-                            setFormData((prev) => ({
-                              ...prev,
-                              stops: newStops,
-                            }));
+                            newStops[index].coords = null;
+                            setFormData((prev) => ({ ...prev, stops: newStops }));
                           }}
                           onSelect={(place) => handleStopSelect(place, index)}
+                          inputClassName="text-black"
                         />
                       </div>
                       {formData.stops.length > 2 &&
@@ -305,7 +263,7 @@ const ExplorePage = () => {
                           <button
                             type="button"
                             onClick={() => removeStop(index)}
-                            className="mt-6 p-2 text-gray-400 hover:text-red-500"
+                            className="p-2 text-gray-400 hover:text-red-500"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -323,106 +281,100 @@ const ExplorePage = () => {
                         )}
                     </div>
                   ))}
-
-                  <button
-                    type="button"
-                    onClick={addStop}
-                    className="mt-2 flex items-center text-blue-600 hover:text-blue-700"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 mr-1"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+                  <div className="flex gap-3 mt-1">
+                    <button
+                      type="button"
+                      onClick={addStop}
+                      className="asphalt-green-bg text-white font-semibold px-5 py-2 rounded hover:brightness-90 transition-colors border"
+                      style={{ backgroundColor: '#034626', borderColor: '#034626' }}
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                        clipRule="evenodd"
+                      + Add stop
+                    </button>
+                    <button
+                      type="button"
+                      onClick={loadPresetRoute}
+                      className="bg-white asphalt-green font-semibold px-5 py-2 rounded border hover:bg-green-50 transition-colors"
+                      style={{ borderColor: '#034626' }}
+                    >
+                      Load sample schools route
+                    </button>
+                  </div>
+                  <div className="flex items-center mt-1">
+                    <input
+                      type="checkbox"
+                      name="maintainOrder"
+                      checked={formData.maintainOrder}
+                      onChange={handleInputChange}
+                      className="h-4 w-4 asphalt-green focus:ring-[#034626] border-gray-300 rounded"
+                    />
+                    <label className="ml-2 text-base text-black">
+                      The stops are in the order they are currently operating
+                    </label>
+                  </div>
+                </div>
+                <div className="w-full flex flex-col gap-2">
+                  <h3 className="text-2xl font-extrabold text-center mb-2">
+                    <span className="text-black">Tell Us About Your </span><span className="asphalt-green">Vehicle</span>
+                  </h3>
+                  <div className="grid grid-cols-3 gap-4 w-full">
+                    <div className="flex flex-col">
+                      <label className="block text-base font-semibold text-black mb-1">Current Fuel Per Trip</label>
+                      <input
+                        type="text"
+                        name="currentFuel"
+                        value={formData.currentFuel}
+                        onChange={handleInputChange}
+                        className="w-full p-3 border border-gray-400 rounded-md focus:ring-2 focus:ring-[#034626] focus:border-[#034626] text-lg text-black"
+                        placeholder="gal"
                       />
-                    </svg>
-                    Add stop
-                  </button>
-                </div>
-
-                {/* Order Checkbox */}
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    name="maintainOrder"
-                    checked={formData.maintainOrder}
-                    onChange={handleInputChange}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                  />
-                  <label className="ml-2 block text-sm text-gray-700">
-                    Stops are in the order as they are now
-                  </label>
-                </div>
-
-                {/* Additional Fields */}
-                <div className="grid grid-cols-3 gap-4 text-black">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Current Fuel
-                    </label>
-                    <input
-                      type="text"
-                      name="currentFuel"
-                      value={formData.currentFuel}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Enter fuel amount"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Time
-                    </label>
-                    <input
-                      type="text"
-                      name="time"
-                      value={formData.time}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Enter time"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Vehicle Number
-                    </label>
-                    <input
-                      type="text"
-                      name="vehicleNumber"
-                      value={formData.vehicleNumber}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Enter vehicle number"
-                    />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="block text-base font-semibold text-black mb-1">Trip Duration</label>
+                      <input
+                        type="text"
+                        name="time"
+                        value={formData.time}
+                        onChange={handleInputChange}
+                        className="w-full p-3 border border-gray-400 rounded-md focus:ring-2 focus:ring-[#034626] focus:border-[#034626] text-lg text-black"
+                        placeholder="hh:mm"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="block text-base font-semibold text-black mb-1">User Input</label>
+                      <input
+                        type="text"
+                        name="vehicleNumber"
+                        value={formData.vehicleNumber}
+                        onChange={handleInputChange}
+                        className="w-full p-3 border border-gray-400 rounded-md focus:ring-2 focus:ring-[#034626] focus:border-[#034626] text-lg text-black"
+                        placeholder=""
+                      />
+                    </div>
                   </div>
                 </div>
-
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="w-full text-white py-4 px-4 rounded-md font-bold text-2xl hover:brightness-90 transition-colors mt-2 asphalt-green-bg"
+                  style={{ backgroundColor: '#034626' }}
                 >
-                  Generate Route
+                  Optimize Route
                 </button>
               </form>
             </div>
-          </div>
+          ) : (
+            <MapView
+              formData={formData}
+              route={route}
+              startCoords={startCoords}
+              endCoords={endCoords}
+              onBack={() => setIsMapView(false)}
+            />
+          )}
         </div>
-      ) : (
-        <MapView
-          formData={formData}
-          route={route}
-          startCoords={startCoords}
-          endCoords={endCoords}
-          onBack={() => setIsMapView(false)}
-        />
-      )}
+      </div>
+      <div className="mt-32">
+        <Footer />
+      </div>
     </div>
   );
 };
