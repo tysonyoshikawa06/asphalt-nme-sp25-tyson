@@ -234,17 +234,33 @@ const ExplorePage = () => {
               <h2 className="text-5xl font-extrabold text-center mb-10 asphalt-green">Sustainability</h2>
               <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-8">
                 {/* Stops Section */}
-                <div className="w-full flex flex-col gap-4">
+                <div className="w-full flex flex-col gap-4 relative overflow-visible" style={{minHeight: 60 * formData.stops.length}}>
                   {formData.stops.map((stop, index) => (
                     <div key={index} className="flex items-center gap-2 w-full">
                       <div className="flex-grow relative">
-                        <label className="block text-base font-semibold text-black mb-1">
-                          {index === 0
-                            ? 'Start Location'
-                            : index === formData.stops.length - 1
-                              ? 'End Location'
-                              : `Stop ${index}`}
-                        </label>
+                        {/* Line and circle inside the input, continuous look */}
+                        <div className="absolute left-0 top-0 h-full w-6 flex items-center z-10 pointer-events-none overflow-visible">
+                          {/* Vertical line above the circle (not for first) */}
+                          {index !== 0 && (
+                            <div className="absolute" style={{left: '12px', top: 0, height: 'calc(50% + 16px)', width: '2px', background: '#94a3b8', borderRadius: 2, marginTop: '-16px'}} />
+                          )}
+                          {/* Circle */}
+                          <div
+                            className={
+                              `w-6 h-6 rounded-full border-2 flex items-center justify-center bg-white `+
+                              (index === 0
+                                ? 'border-green-700'
+                                : 'border-gray-400')
+                            }
+                            style={{zIndex: 2}}
+                          >
+                            {index === 0 && <div className="w-3 h-3 rounded-full bg-green-700" />}
+                          </div>
+                          {/* Vertical line below the circle (not for last) */}
+                          {index !== formData.stops.length - 1 && (
+                            <div className="absolute" style={{left: '12px', bottom: 0, height: 'calc(50% + 16px)', width: '2px', background: '#94a3b8', borderRadius: 2, marginBottom: '-16px'}} />
+                          )}
+                        </div>
                         <PlacesAutocomplete
                           value={stop.location}
                           onChange={(value) => {
@@ -254,17 +270,24 @@ const ExplorePage = () => {
                             setFormData((prev) => ({ ...prev, stops: newStops }));
                           }}
                           onSelect={(place) => handleStopSelect(place, index)}
-                          inputClassName="text-black"
+                          inputClassName="text-black pl-10"
+                          placeholder={
+                            index === 0
+                              ? 'Enter start location'
+                              : index === formData.stops.length - 1
+                                ? 'Enter final location'
+                                : `Stop ${index}`
+                          }
                         />
                       </div>
                       {formData.stops.length > 2 &&
                         index !== 0 &&
                         index !== formData.stops.length - 1 && (
-                          <button
-                            type="button"
-                            onClick={() => removeStop(index)}
-                            className="p-2 text-gray-400 hover:text-red-500"
-                          >
+                        <button
+                          type="button"
+                          onClick={() => removeStop(index)}
+                          className="p-2 text-gray-400 hover:text-red-500"
+                        >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-5 w-5"
@@ -276,9 +299,9 @@ const ExplorePage = () => {
                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                                 clipRule="evenodd"
                               />
-                            </svg>
-                          </button>
-                        )}
+                          </svg>
+                        </button>
+                      )}
                     </div>
                   ))}
                   <div className="flex gap-3 mt-1">
@@ -340,7 +363,7 @@ const ExplorePage = () => {
                       />
                     </div>
                     <div className="flex flex-col">
-                      <label className="block text-base font-semibold text-black mb-1">User Input</label>
+                      <label className="block text-base font-semibold text-black mb-1">Vehicle Number</label>
                       <input
                         type="text"
                         name="vehicleNumber"
