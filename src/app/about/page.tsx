@@ -102,7 +102,7 @@ const AboutPage = () => {
             <br />
             and executes route solving
             <br />
-            via Google OR-Tools.
+            via Google OR-Tools
           </p>
         </div>
         <div className="w-1/3 flex flex-col items-center justify-center">
@@ -121,7 +121,7 @@ const AboutPage = () => {
             <br />
             distance, brand route-specific
             <br />
-            operational constraints.
+            operational constraints
           </p>
         </div>
         <div className="w-1/3 flex flex-col items-center justify-center">
@@ -138,7 +138,7 @@ const AboutPage = () => {
             <br />
             Next.js frontend with real-time
             <br />
-            map updates.
+            map updates
           </p>
         </div>
       </section>
