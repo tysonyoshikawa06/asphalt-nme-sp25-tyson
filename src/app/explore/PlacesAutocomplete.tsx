@@ -20,6 +20,7 @@ interface PlacesAutocompleteProps {
     geometry: { location: { lat: number; lng: number } };
   }) => void;
   inputClassName?: string;
+  placeholder?: string;
 }
 
 const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
@@ -27,6 +28,7 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
   onChange,
   onSelect,
   inputClassName,
+  placeholder,
 }) => {
   const [suggestions, setSuggestions] = useState<Place[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -155,10 +157,10 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
         }}
         onKeyDown={handleKeyDown}
         onFocus={() => setIsOpen(true)}
-        className={`w-full p-3 border border-gray-400 rounded-md focus:ring-2 focus:ring-[#034626] focus:border-[#034626] text-lg text-black ${
+        className={`w-full p-3 pl-16 border border-gray-400 rounded-md focus:ring-2 focus:ring-[#034626] focus:border-[#034626] text-lg text-black ${
           isLoading ? 'pr-10' : ''
         } ${inputClassName || ''}`}
-        placeholder="Search locations..."
+        placeholder={placeholder || 'Search locations...'}
       />
 
       {isLoading && (
