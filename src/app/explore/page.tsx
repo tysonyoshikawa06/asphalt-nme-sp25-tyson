@@ -113,6 +113,7 @@ const ExplorePage = () => {
 
   const [route, setRoute] = useState(null);
   const [isMapView, setIsMapView] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(Array(formData.stops.length).fill(false));
 
   // Add these computed values
   const startCoords = formData.stops[0]?.coords || null;
@@ -216,68 +217,75 @@ const ExplorePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 flex flex-col">
       {!isMapView && <Navbar />}
+      <div style={{ height: '5rem' }} />
       <div className="relative flex-1 flex flex-col justify-center items-center">
         {/* Decorative Leaves */}
-        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute left-16 top-[23%] w-24 rotate-[-26deg] scale-x-[-1] z-0" />
-        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute left-24 top-[44%] w-20 rotate-[14deg] z-0" />
-        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute left-20 top-[66%] w-24 rotate-[-21deg] scale-x-[-1] z-0" />
-        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute right-16 top-[26%] w-24 rotate-[24deg] z-0" />
-        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute right-24 top-[46%] w-20 rotate-[-16deg] scale-x-[-1] z-0" />
-        <img src="/images/leaf.png" alt="Leaf" className="hidden md:block absolute right-20 top-[64%] w-24 rotate-[19deg] z-0" />
+        <img src="/images/leaf.png" alt="Leaf" style={{ position: 'absolute', left: '5rem', top: '5vh', width: '6rem', transform: 'rotate(-26deg) scaleX(-1)', zIndex: 0 }} className="hidden md:block" />
+        <img src="/images/leaf.png" alt="Leaf" style={{ position: 'absolute', left: '5rem', top: '30vh', width: '5rem', transform: 'rotate(14deg)', zIndex: 0 }} className="hidden md:block" />
+        <img src="/images/leaf.png" alt="Leaf" style={{ position: 'absolute', left: '5rem', top: '55vh', width: '6rem', transform: 'rotate(-21deg) scaleX(-1)', zIndex: 0 }} className="hidden md:block" />
+        <img src="/images/leaf.png" alt="Leaf" style={{ position: 'absolute', right: '5rem', top: '10vh', width: '6rem', transform: 'rotate(24deg)', zIndex: 0 }} className="hidden md:block" />
+        <img src="/images/leaf.png" alt="Leaf" style={{ position: 'absolute', right: '5rem', top: '35vh', width: '5rem', transform: 'rotate(-16deg) scaleX(-1)', zIndex: 0 }} className="hidden md:block" />
+        <img src="/images/leaf.png" alt="Leaf" style={{ position: 'absolute', right: '5rem', top: '60vh', width: '6rem', transform: 'rotate(19deg)', zIndex: 0 }} className="hidden md:block" />
         {/* Main Content */}
         <div className="relative z-10 flex flex-col items-center justify-center w-full py-8 pb-24">
           {!isMapView ? (
-            <div className="w-full max-w-3xl mx-auto flex flex-col items-center px-2 sm:px-4 md:px-8">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-0 leading-tight">
-                <span className="asphalt-green">Explore</span> <span className="text-black">Your New Route to</span>
+            <div className="w-full max-w-4xl mx-auto flex flex-col items-center px-2 sm:px-4 md:px-8">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl poppins-semibold text-center leading-relaxed mb-10">
+                <span className="asphalt-green">Explore</span> <span className="text-black">Your New Route to</span><br />
+                <span className="asphalt-green mt-2 inline-block">Sustainability</span>
               </h1>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-10 asphalt-green">Sustainability</h2>
               <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-8">
                 {/* Stops Section */}
                 <div className="w-full flex flex-col gap-4 relative overflow-visible" style={{minHeight: 60 * formData.stops.length}}>
                   {formData.stops.map((stop, index) => (
                     <div key={index} className="flex items-center gap-2 w-full min-h-14 sm:min-h-16">
                       <div className="flex-grow relative">
-                        <div className="absolute left-0 top-0 h-full w-20 flex items-center z-10 pointer-events-none overflow-visible">
+                        {/* Timeline inside and between textboxes */}
+                        <div className="absolute left-5 top-0 h-full w-8 flex flex-col items-center z-10 pointer-events-none">
                           {/* Vertical line above the circle (not for first) */}
                           {index !== 0 && (
-                            <div className="absolute" style={{left: '50%', transform: 'translateX(-50%)', top: 0, height: 'calc(50% + 20px - 16px)', width: '2px', background: '#15803d', borderRadius: 2, marginTop: '-16px', marginBottom: '8px'}} />
+                            <div className="absolute" style={{left: '50%', transform: 'translateX(-50%)', top: '-16px', height: 'calc(50% + 16px)', width: '2px', background: '#034626', borderRadius: 2}} />
                           )}
                           {/* Circle */}
                           <div
                             className={
                               (index === 0 || index === formData.stops.length - 1
-                                ? 'w-4 h-4 rounded-full bg-green-700'
-                                : 'w-4 h-4 rounded-full border-2 border-green-700 bg-white')
+                                ? 'w-4 h-4 rounded-full'
+                                : 'w-4 h-4 rounded-full border-2 bg-white')
                             }
-                            style={{zIndex: 2, left: '50%', transform: 'translateX(-50%)', position: 'absolute'}}
+                            style={{zIndex: 2, left: '50%', transform: 'translateX(-50%)', position: 'absolute', top: '50%', marginTop: '-8px', background: index === 0 || index === formData.stops.length - 1 ? '#034626' : 'white', borderColor: index !== 0 && index !== formData.stops.length - 1 ? '#034626' : undefined}}
                           >
                           </div>
                           {/* Vertical line below the circle (not for last) */}
                           {index !== formData.stops.length - 1 && (
-                            <div className="absolute" style={{left: '50%', transform: 'translateX(-50%)', bottom: 0, height: 'calc(50% + 20px - 16px)', width: '2px', background: '#15803d', borderRadius: 2, marginBottom: '-16px', marginTop: '8px'}} />
+                            <div className="absolute" style={{left: '50%', transform: 'translateX(-50%)', top: '50%', height: 'calc(50% + 16px)', width: '2px', background: '#034626', borderRadius: 2}} />
                           )}
                         </div>
-                        <div className="pl-20">
-                          <PlacesAutocomplete
-                            value={stop.location}
-                            onChange={(value) => {
-                              const newStops = [...formData.stops];
-                              newStops[index].location = value;
-                              newStops[index].coords = null;
-                              setFormData((prev) => ({ ...prev, stops: newStops }));
-                            }}
-                            onSelect={(place) => handleStopSelect(place, index)}
-                            inputClassName="text-black text-base sm:text-lg md:text-xl"
-                            placeholder={
-                              index === 0
-                                ? 'Enter start location'
-                                : index === formData.stops.length - 1
-                                  ? 'Enter end location'
-                                  : `Stop ${index}`
-                            }
-                          />
-                        </div>
+                        <PlacesAutocomplete
+                          value={stop.location}
+                          onChange={(value) => {
+                            const newStops = [...formData.stops];
+                            newStops[index].location = value;
+                            newStops[index].coords = null;
+                            setFormData((prev) => ({ ...prev, stops: newStops }));
+                          }}
+                          onSelect={(place) => handleStopSelect(place, index)}
+                          inputClassName="text-black text-base sm:text-lg md:text-xl pl-16 py-4"
+                          placeholder={
+                            index === 0
+                              ? 'Enter start location'
+                              : index === formData.stops.length - 1
+                                ? 'Enter end location'
+                                : `Stop ${index}`
+                          }
+                          onDropdownVisibilityChange={(visible) => {
+                            setDropdownVisible((prev) => {
+                              const arr = [...prev];
+                              arr[index] = visible;
+                              return arr;
+                            });
+                          }}
+                        />
                       </div>
                       {/* Remove button for intermediate stops */}
                       {index !== 0 && index !== formData.stops.length - 1 && (
@@ -297,22 +305,33 @@ const ExplorePage = () => {
                   <button
                     type="button"
                     onClick={addStop}
-                    className="asphalt-green-bg text-white font-semibold px-5 py-2 rounded hover:brightness-90 transition-colors border w-full sm:w-auto"
-                    style={{ backgroundColor: '#034626', borderColor: '#034626' }}
+                    className="bg-[#034626] hover:bg-[#023219] text-white poppins-semibold text-xl py-3 px-6 rounded-xl transform transition-all hover:scale-105 w-full sm:w-auto"
                   >
                     + Add stop
                   </button>
                   <button
                     type="button"
                     onClick={loadPresetRoute}
-                    className="bg-white asphalt-green font-semibold px-5 py-2 rounded border hover:bg-green-50 transition-colors w-full sm:w-auto"
-                    style={{ borderColor: '#034626' }}
+                    className="border-2 border-[#034626] asphalt-green hover:bg-[#034626] hover:text-white poppins-semibold text-xl py-3 px-6 rounded-xl transform transition-all hover:scale-105 w-full sm:w-auto"
                   >
                     Load sample schools route
                   </button>
                 </div>
-                <div className="w-full flex flex-col gap-2">
-                  <h3 className="text-2xl font-extrabold text-center mb-2">
+                <div className="flex items-center w-full mt-0 mb-4">
+                  <input
+                    id="maintainOrder"
+                    type="checkbox"
+                    name="maintainOrder"
+                    checked={formData.maintainOrder}
+                    onChange={handleInputChange}
+                    className="mr-2 w-4 h-4 accent-[#034626] border-[#034626] rounded focus:ring-2 focus:ring-[#034626] transition-transform duration-150 hover:scale-110 focus:scale-110"
+                  />
+                  <label htmlFor="maintainOrder" className="text-black text-base">
+                    The stops are in the order they are currently operating
+                  </label>
+                </div>
+                <div className="w-full flex flex-col gap-2 mt-10">
+                  <h3 className="text-4xl font-extrabold text-center mb-2">
                     <span className="text-black">Tell Us About Your </span><span className="asphalt-green">Vehicle</span>
                   </h3>
                   <div className="grid grid-cols-3 gap-4 w-full">
@@ -353,8 +372,7 @@ const ExplorePage = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white py-4 px-4 rounded-md font-bold text-2xl hover:brightness-90 transition-colors mt-2 asphalt-green-bg"
-                  style={{ backgroundColor: '#034626' }}
+                  className="w-full bg-[#034626] hover:bg-[#023219] text-white poppins-semibold text-xl py-3 px-6 rounded-xl transform transition-all hover:scale-105 mt-2"
                 >
                   Optimize Route
                 </button>

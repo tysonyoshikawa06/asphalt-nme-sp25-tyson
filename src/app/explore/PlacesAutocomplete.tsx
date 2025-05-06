@@ -21,6 +21,7 @@ interface PlacesAutocompleteProps {
   }) => void;
   inputClassName?: string;
   placeholder?: string;
+  onDropdownVisibilityChange?: (visible: boolean) => void;
 }
 
 const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
@@ -29,6 +30,7 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
   onSelect,
   inputClassName,
   placeholder,
+  onDropdownVisibilityChange,
 }) => {
   const [suggestions, setSuggestions] = useState<Place[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -103,6 +105,12 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (onDropdownVisibilityChange) {
+      onDropdownVisibilityChange(isOpen && suggestions.length > 0);
+    }
+  }, [isOpen, suggestions, onDropdownVisibilityChange]);
+
   const handleSuggestionClick = (place: Place) => {
     onChange(place.display_name);
     onSelect({
@@ -170,7 +178,7 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
       )}
 
       {isOpen && suggestions.length > 0 && (
-        <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-auto shadow-lg">
+        <ul className="absolute z-30 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-auto shadow-lg">
           {suggestions.map((place, index) => (
             <li
               key={index}
