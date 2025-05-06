@@ -109,8 +109,7 @@ export default function ContactPage() {
                 </div>
                 <button
                   type="submit"
-                  style={{ backgroundColor: '#034626' }}
-                  className="w-full px-4 py-3 text-white rounded-xl transition-colors duration-200 text-base poppins-medium button-green-hover"
+                  className="bg-[#034626] text-white px-8 py-3 rounded-2xl text-base poppins-medium transform transition-all hover:scale-105"
                 >
                   Submit
                 </button>
