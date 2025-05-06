@@ -61,7 +61,7 @@ export default function ContactPage() {
             </div>
 
             <div className="w-full flex flex-col">
-              <h1 className="text-[52px] poppins-semibold mb-4 text-gray-800">Contact Us</h1>
+              <h1 className="text-[52px] poppins-semibold mb-4 text-gray-900">Contact Us</h1>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <input
@@ -71,7 +71,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     placeholder="Full Name*"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-500 text-base poppins-regular"
+                    className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-base poppins-regular"
                   />
                 </div>
                 <div>
@@ -82,7 +82,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     placeholder="Email Address*"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-500 text-base poppins-regular"
+                    className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-base poppins-regular"
                   />
                 </div>
                 <div>
@@ -92,7 +92,7 @@ export default function ContactPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="Phone Number"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-500 text-base poppins-regular"
+                    className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-base poppins-regular"
                   />
                 </div>
                 <div className="flex-1 flex flex-col justify-end">
@@ -103,13 +103,13 @@ export default function ContactPage() {
                     placeholder="Message*"
                     required
                     rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-500 text-base poppins-regular"
-                    style={{ resize: 'none', overflowY: 'auto' }}
+                    className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-base poppins-regular"
+                    style={{ resize: 'none', overflowY: 'auto' }} 
                   />
                 </div>
                 <button
                   type="submit"
-                  className="bg-[#034626] text-white px-8 py-3 rounded-2xl text-base poppins-medium transform transition-all hover:scale-105"
+                  className="bg-[#034626] hover:bg-[#023219] text-white px-8 py-3 rounded-2xl text-base poppins-bold transform transition-all hover:scale-105"
                 >
                   Submit
                 </button>
