@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { debounce } from 'lodash';
 
 // Add cache interface
@@ -38,9 +38,10 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cache = useRef<Cache>({});
+  const lastDropdownState = useRef<boolean | null>(null);
 
-  // Improved search function with caching
-  const searchPlaces = useCallback(
+  // Improved search function with caching (debounced and stable)
+  const searchPlacesRef = useRef(
     debounce(async (query: string) => {
       if (!query || query.length < 3) {
         setSuggestions([]);
@@ -82,12 +83,11 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
       } finally {
         setIsLoading(false);
       }
-    }, 200), // Reduced debounce time from 300ms to 200ms
-    []
+    }, 200)
   );
 
   useEffect(() => {
-    searchPlaces(value);
+    searchPlacesRef.current(value);
   }, [value]);
 
   // Close dropdown when clicking outside
@@ -106,8 +106,10 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
   }, []);
 
   useEffect(() => {
-    if (onDropdownVisibilityChange) {
-      onDropdownVisibilityChange(isOpen && suggestions.length > 0);
+    const currentState = isOpen && suggestions.length > 0;
+    if (onDropdownVisibilityChange && lastDropdownState.current !== currentState) {
+      onDropdownVisibilityChange(currentState);
+      lastDropdownState.current = currentState;
     }
   }, [isOpen, suggestions, onDropdownVisibilityChange]);
 
@@ -165,9 +167,7 @@ const PlacesAutocomplete: React.FC<PlacesAutocompleteProps> = ({
         }}
         onKeyDown={handleKeyDown}
         onFocus={() => setIsOpen(true)}
-        className={`w-full p-3 pl-16 border border-gray-400 rounded-md focus:ring-2 focus:ring-[#034626] focus:border-[#034626] text-lg text-black ${
-          isLoading ? 'pr-10' : ''
-        } ${inputClassName || ''}`}
+        className={`w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-[18px] poppins-regular ${isLoading ? 'pr-10' : ''} ${inputClassName || ''}`}
         placeholder={placeholder || 'Search locations...'}
       />
 

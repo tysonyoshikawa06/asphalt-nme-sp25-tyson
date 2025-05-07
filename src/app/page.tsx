@@ -34,7 +34,7 @@ export default function HomePage() {
                   Explore Routes
                 </button>
               </Link>
-              <Link href="/">
+              <Link href="/about">
                 <button className="border-2 border-[#034626] asphalt-green hover:bg-[#034626] hover:text-white poppins-bold text-xl py-3 px-6 rounded-xl transform transition-all hover:scale-105">
                   About Us
                 </button>

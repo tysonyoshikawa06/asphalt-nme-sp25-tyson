@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import PlacesAutocomplete from './PlacesAutocomplete';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 
-// Dynamically import the map component with no SSR
+// Dynamically import the map component with no Server-Side Rendering
 const MapView = dynamic(() => import('./MapView'), {
   ssr: false,
   loading: () => (
@@ -215,9 +215,10 @@ const ExplorePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 flex flex-col">
+    <main className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 flex flex-col">
+      {/* Only show Navbar if not in MapView */}
       {!isMapView && <Navbar />}
-      <div style={{ height: '5rem' }} />
+      <div className="mt-16" />
       <div className="relative flex-1 flex flex-col justify-center items-center">
         {/* Decorative Leaves */}
         <img src="/images/leaf.png" alt="Leaf" style={{ position: 'absolute', left: '5rem', top: '5vh', width: '6rem', transform: 'rotate(-26deg) scaleX(-1)', zIndex: 0 }} className="hidden md:block" />
@@ -230,7 +231,7 @@ const ExplorePage = () => {
         <div className="relative z-10 flex flex-col items-center justify-center w-full py-8 pb-24">
           {!isMapView ? (
             <div className="w-full max-w-4xl mx-auto flex flex-col items-center px-2 sm:px-4 md:px-8">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl poppins-semibold text-center leading-relaxed mb-10">
+              <h1 className="text-[52px] poppins-bold text-center leading-tight mb-10 text-gray-900">
                 <span className="asphalt-green">Explore</span> <span className="text-black">Your New Route to</span><br />
                 <span className="asphalt-green mt-2 inline-block">Sustainability</span>
               </h1>
@@ -244,21 +245,51 @@ const ExplorePage = () => {
                         <div className="absolute left-5 top-0 h-full w-8 flex flex-col items-center z-10 pointer-events-none">
                           {/* Vertical line above the circle (not for first) */}
                           {index !== 0 && (
-                            <div className="absolute" style={{left: '50%', transform: 'translateX(-50%)', top: '-16px', height: 'calc(50% + 16px)', width: '2px', background: '#034626', borderRadius: 2}} />
+                            <div
+                              className="absolute"
+                              style={{
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                top: '-22px',
+                                height: 'calc(50% + 10px)',
+                                width: '2px',
+                                background: '#034626',
+                                borderRadius: 2
+                              }}
+                            />
                           )}
                           {/* Circle */}
                           <div
                             className={
-                              (index === 0 || index === formData.stops.length - 1
+                              stop.coords
                                 ? 'w-4 h-4 rounded-full'
-                                : 'w-4 h-4 rounded-full border-2 bg-white')
+                                : 'w-4 h-4 rounded-full border-2 bg-white'
                             }
-                            style={{zIndex: 2, left: '50%', transform: 'translateX(-50%)', position: 'absolute', top: '50%', marginTop: '-8px', background: index === 0 || index === formData.stops.length - 1 ? '#034626' : 'white', borderColor: index !== 0 && index !== formData.stops.length - 1 ? '#034626' : undefined}}
-                          >
-                          </div>
+                            style={{
+                              zIndex: 2,
+                              left: '50%',
+                              transform: 'translateX(-50%)',
+                              position: 'absolute',
+                              top: '50%',
+                              marginTop: '-8px',
+                              background: stop.coords ? '#034626' : 'white',
+                              borderColor: !stop.coords ? '#034626' : undefined,
+                            }}
+                          ></div>
                           {/* Vertical line below the circle (not for last) */}
                           {index !== formData.stops.length - 1 && (
-                            <div className="absolute" style={{left: '50%', transform: 'translateX(-50%)', top: '50%', height: 'calc(50% + 16px)', width: '2px', background: '#034626', borderRadius: 2}} />
+                            <div
+                              className="absolute"
+                              style={{
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                top: 'calc(50% + 14px)',
+                                height: 'calc(50% + 10px)',
+                                width: '2px',
+                                background: '#034626',
+                                borderRadius: 2
+                              }}
+                            />
                           )}
                         </div>
                         <PlacesAutocomplete
@@ -301,23 +332,23 @@ const ExplorePage = () => {
                     </div>
                   ))}
                 </div>
-                <div className="flex flex-col sm:flex-row gap-3 mt-1 w-full">
+                <div className="flex flex-col sm:flex-row gap-3 -mt-1 w-full">
                   <button
                     type="button"
                     onClick={addStop}
-                    className="bg-[#034626] hover:bg-[#023219] text-white poppins-semibold text-xl py-3 px-6 rounded-xl transform transition-all hover:scale-105 w-full sm:w-auto"
+                    className="bg-[#034626] hover:bg-[#023219] text-white poppins-semibold text-xl py-1.5 px-4 rounded-xl transform transition-all hover:scale-105 w-full sm:w-auto"
                   >
                     + Add stop
                   </button>
                   <button
                     type="button"
                     onClick={loadPresetRoute}
-                    className="border-2 border-[#034626] asphalt-green hover:bg-[#034626] hover:text-white poppins-semibold text-xl py-3 px-6 rounded-xl transform transition-all hover:scale-105 w-full sm:w-auto"
+                    className="border-2 border-[#034626] asphalt-green poppins-semibold text-xl py-1.5 px-4 rounded-xl transform transition-all hover:scale-105 w-full sm:w-auto"
                   >
                     Load sample schools route
                   </button>
                 </div>
-                <div className="flex items-center w-full mt-0 mb-4">
+                <div className="flex items-center w-full -mt-4 mb-4">
                   <input
                     id="maintainOrder"
                     type="checkbox"
@@ -326,45 +357,45 @@ const ExplorePage = () => {
                     onChange={handleInputChange}
                     className="mr-2 w-4 h-4 accent-[#034626] border-[#034626] rounded focus:ring-2 focus:ring-[#034626] transition-transform duration-150 hover:scale-110 focus:scale-110"
                   />
-                  <label htmlFor="maintainOrder" className="text-black text-base">
+                  <label htmlFor="maintainOrder" className="text-gray-600 text-base text-[16px]">
                     The stops are in the order they are currently operating
                   </label>
                 </div>
                 <div className="w-full flex flex-col gap-2 mt-10">
-                  <h3 className="text-4xl font-extrabold text-center mb-2">
-                    <span className="text-black">Tell Us About Your </span><span className="asphalt-green">Vehicle</span>
+                  <h3 className="text-4xl text-center mb-2 text-gray-800 poppins-bold">
+                    Tell Us About Your <span className="asphalt-green">Vehicle</span>
                   </h3>
-                  <div className="grid grid-cols-3 gap-4 w-full">
+                  <div className="grid grid-cols-3 gap-4 w-full mt-2">
                     <div className="flex flex-col">
-                      <label className="block text-base font-semibold text-black mb-1">Current Fuel Per Trip</label>
+                      <label className="block text-[18px] font-normal text-gray-800 mb-1">Current Fuel Per Trip</label>
                       <input
                         type="text"
                         name="currentFuel"
                         value={formData.currentFuel}
                         onChange={handleInputChange}
-                        className="w-full p-3 border border-gray-400 rounded-md focus:ring-2 focus:ring-[#034626] focus:border-[#034626] text-lg text-black"
+                        className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-[18px] poppins-regular"
                         placeholder="gal"
                       />
                     </div>
                     <div className="flex flex-col">
-                      <label className="block text-base font-semibold text-black mb-1">Trip Duration</label>
+                      <label className="block text-[18px] font-normal text-gray-800 mb-1">Trip Duration</label>
                       <input
                         type="text"
                         name="time"
                         value={formData.time}
                         onChange={handleInputChange}
-                        className="w-full p-3 border border-gray-400 rounded-md focus:ring-2 focus:ring-[#034626] focus:border-[#034626] text-lg text-black"
+                        className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-[18px] poppins-regular"
                         placeholder="hh:mm"
                       />
                     </div>
                     <div className="flex flex-col">
-                      <label className="block text-base font-semibold text-black mb-1">Vehicle Number</label>
+                      <label className="block text-[18px] font-normal text-gray-800 mb-1">User Input</label>
                       <input
                         type="text"
                         name="vehicleNumber"
                         value={formData.vehicleNumber}
                         onChange={handleInputChange}
-                        className="w-full p-3 border border-gray-400 rounded-md focus:ring-2 focus:ring-[#034626] focus:border-[#034626] text-lg text-black"
+                        className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-[18px] poppins-regular"
                         placeholder=""
                       />
                     </div>
@@ -372,7 +403,7 @@ const ExplorePage = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-[#034626] hover:bg-[#023219] text-white poppins-semibold text-xl py-3 px-6 rounded-xl transform transition-all hover:scale-105 mt-2"
+                  className="w-full bg-[#034626] hover:bg-[#023219] text-white poppins-semibold text-xl py-2 px-4 rounded-xl transform transition-all hover:scale-105 -mt-1"
                 >
                   Optimize Route
                 </button>
@@ -392,7 +423,7 @@ const ExplorePage = () => {
       <div className="mt-32">
         <Footer />
       </div>
-    </div>
+    </main>
   );
 };
 
