@@ -21,6 +21,12 @@ body {
   font-size: 20px;
 }
 
+/* Override autofill styling */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
 .poppins-bold {
   font-family: var(--font-poppins-bold);
   font-weight: 700;

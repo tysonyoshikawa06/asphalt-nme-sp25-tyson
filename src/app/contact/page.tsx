@@ -1,30 +1,69 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Navbar from '../components/Navbar';
-import Link from 'next/link';
-import { Poppins } from 'next/font/google';
 import Footer from '../components/Footer';
+import { Poppins } from 'next/font/google';
 
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
 });
 
+interface FormData {
+  fullName: string;
+  email: string;
+  phone: string;
+  message: string;
+}
+
+const ContactInput = ({ 
+  type, 
+  name, 
+  value, 
+  onChange, 
+  placeholder, 
+  required
+}: { 
+  type: string;
+  name: keyof FormData;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  placeholder: string;
+  required?: boolean;
+}) => {
+  const isTextArea = type === 'textarea';
+  const InputComponent = isTextArea ? 'textarea' : 'input';
+  const inputId = `contact-${name}`;
+  
+  return (
+    <div>
+      <label htmlFor={inputId} className="sr-only">
+        {placeholder}
+      </label>
+      <InputComponent
+        id={inputId}
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        required={required}
+        rows={isTextArea ? 4 : undefined}
+        className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-base poppins-regular"
+        style={isTextArea ? { resize: 'none', overflowY: 'auto' } : undefined}
+      />
+    </div>
+  );
+};
+
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
     phone: '',
     message: '',
   });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // need to complte submission form logic
-    console.log('Form submitted:', formData);
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -62,53 +101,40 @@ export default function ContactPage() {
 
             <div className="w-full flex flex-col">
               <h1 className="text-[52px] poppins-semibold mb-4 text-gray-900">Contact Us</h1>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <input
-                    type="text"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    placeholder="Full Name*"
-                    required
-                    className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-base poppins-regular"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Email Address*"
-                    required
-                    className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-base poppins-regular"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="Phone Number"
-                    className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-base poppins-regular"
-                  />
-                </div>
-                <div className="flex-1 flex flex-col justify-end">
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Message*"
-                    required
-                    rows={4}
-                    className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#034626] text-gray-700 placeholder-gray-600 text-base poppins-regular"
-                    style={{ resize: 'none', overflowY: 'auto' }} 
-                  />
-                </div>
+              <form className="space-y-6">
+                <ContactInput
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  placeholder="Full Name*"
+                  required
+                />
+                <ContactInput
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email Address*"
+                  required
+                />
+                <ContactInput
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Phone Number"
+                />
+                <ContactInput
+                  type="textarea"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Message*"
+                  required
+                />
                 <button
-                  type="submit"
+                  type="button"
                   className="bg-[#034626] hover:bg-[#023219] text-white px-8 py-3 rounded-2xl text-base poppins-bold transform transition-all hover:scale-105"
                 >
                   Submit
