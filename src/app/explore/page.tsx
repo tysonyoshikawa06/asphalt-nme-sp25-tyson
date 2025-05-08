@@ -355,9 +355,9 @@ const ExplorePage = () => {
                     name="maintainOrder"
                     checked={formData.maintainOrder}
                     onChange={handleInputChange}
-                    className="mr-2 w-4 h-4 accent-[#034626] border-[#034626] rounded focus:ring-2 focus:ring-[#034626] transition-transform duration-150 hover:scale-110 focus:scale-110"
+                    className="mr-2 w-4 h-4 accent-[#034626] border-[#034626] rounded focus:ring-2 focus:ring-[#034626] transition-transform duration-150 hover:scale-110 focus:scale-110 cursor-pointer"
                   />
-                  <label htmlFor="maintainOrder" className="text-gray-600 text-base text-[16px]">
+                  <label htmlFor="maintainOrder" className="text-gray-600 text-base text-[16px] cursor-pointer">
                     The stops are in the order they are currently operating
                   </label>
                 </div>
