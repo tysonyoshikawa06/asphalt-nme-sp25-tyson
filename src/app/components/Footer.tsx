@@ -94,6 +94,12 @@ export default function Footer() {
             </li>
           </ul>
         </div>
+        <div>
+          <img
+            src="/images/project-of-the-year.png"
+            alt="Aspahlt: Sustainability Project of the Year Award 2025"
+          />
+        </div>
       </div>
 
       {/* Copyright */}

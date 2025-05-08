@@ -5,7 +5,7 @@ const AboutPage = () => {
   return (
     <main className="min-h-screen bg-white m-0">
       <Navbar />
-      <div className="max-w-full mx-auto">
+      <div className="max-w-full mx-auto bg-gradient-to-br from-green-50 via-white to-green-50 ">
         {/* Section 1 */}
         <section className="flex flex-col md:flex-row justify-center p-[49px] pt-[97px]">
           <div className="w-full md:w-1/2 pr-[90px]">
@@ -29,7 +29,7 @@ const AboutPage = () => {
             <img
               src="/images/temp_image1.png"
               alt="Temporary Image"
-              className="max-w-full h-auto"
+              className="max-w-full h-auto transform transition-all duration-300 hover:scale-105"
             />
           </div>
         </section>
@@ -40,7 +40,7 @@ const AboutPage = () => {
             <img
               src="/images/temp_image2.png"
               alt="Temporary Image"
-              className="max-w-full h-auto"
+              className="max-w-full h-auto transform transition-all duration-300 hover:scale-105"
             />
           </div>
 
@@ -131,7 +131,9 @@ const AboutPage = () => {
             alt="Map Icon"
           />
           <h3 className="poppins-semibold text-2xl text-gray-800 pt-[20px] pb-[10px] text-center">
-            Live Map Interface
+            Live-Updating
+            <br />
+            Map Interface
           </h3>
           <p className="poppins-regular text-lg text-gray-700 text-center">
             Results are visualized through a responsive

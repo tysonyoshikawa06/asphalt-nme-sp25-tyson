@@ -30,12 +30,12 @@ export default function HomePage() {
             </div>
             <div className="flex space-x-4 mt-8">
               <Link href="/explore">
-                <button className="bg-[#034626] hover:bg-[#023219] text-white poppins-bold text-xl py-3 px-6 rounded-xl transform transition-all hover:scale-105">
+                <button className="border border-2 border-[#034626] bg-[#034626] hover:bg-[#023219] hover:border-[#023219] text-white poppins-bold text-xl py-3 px-6 rounded-xl transform transition-all hover:scale-105">
                   Explore Routes
                 </button>
               </Link>
               <Link href="/about">
-                <button className="border-2 border-[#034626] asphalt-green hover:bg-[#034626] hover:text-white poppins-bold text-xl py-3 px-6 rounded-xl transform transition-all hover:scale-105">
+                <button className="border border-2 border-[#034626] asphalt-green hover:bg-[#034626] hover:text-white poppins-bold text-xl py-3 px-6 rounded-xl transform transition-all hover:scale-105">
                   About Us
                 </button>
               </Link>
@@ -47,7 +47,7 @@ export default function HomePage() {
               <img
                 src="https://images.unsplash.com/photo-1465447142348-e9952c393450?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cm9hZHxlbnwwfHwwfHx8MA%3D%3D"
                 alt="Ithaca Commons"
-                className="w-[661.33px] h-[372px] object-cover object-center rounded-lg shadow-2xl"
+                className="w-[700px] h-[372px] object-cover object-center rounded-lg shadow-2xl"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
             </div>
@@ -55,7 +55,7 @@ export default function HomePage() {
         </section>
 
         {/* Container for "Get Started" and Stepper Section */}
-        <div className="flex flex-col md:flex-row items-center justify-center px-8 md:px-16 lg:px-24 mt-8 pb-40 pt-12 bg-white text-black">
+        <div className="flex flex-col md:flex-row items-center justify-center px-8 md:px-16 lg:px-24 mt-8 pb-40 pt-12 bg-white text-black ">
           {/* "Get Started" section */}
           <div
             id="get-started"
@@ -63,7 +63,7 @@ export default function HomePage() {
           >
             <div>
               <img
-                className="w-[480px] h-[550px] object-cover rounded-lg"
+                className="w-[480px] h-[550px] object-cover rounded-lg transform hover:scale-105 transition-transform duration-300"
                 src="/images/image.png"
               ></img>
               <p
@@ -75,7 +75,7 @@ export default function HomePage() {
 
           {/* Stepper Section */}
           <section className="w-full md:w-auto ml-16">
-            <h1 className="poppins-bold text-center text-[48px] font-bold mb-8 text-gray-900">
+            <h1 className="poppins-bold text-left text-[48px] font-bold mb-8 text-gray-900">
               Explore Our <span className="asphalt-green">Road</span> Network
             </h1>
             <div className="relative max-w-4xl mx-auto">
@@ -99,7 +99,7 @@ export default function HomePage() {
                     </h2>
                     <p className="mt-2 text-xl poppins-medium text-gray-700">
                       Gain a comprehensive view of the transportation
-                      infrastructure in your area.
+                      infrastructure in your area
                     </p>
                   </div>
                 </div>
@@ -123,7 +123,7 @@ export default function HomePage() {
                     </h2>
                     <p className="mt-2 text-xl poppins-medium text-gray-700">
                       Identify bottlenecks, alternative routes, and
-                      opportunities for optimization.
+                      opportunities for optimization
                     </p>
                   </div>
                 </div>
@@ -147,7 +147,7 @@ export default function HomePage() {
                     </h2>
                     <p className="mt-2 text-xl poppins-medium text-gray-700">
                       Plan the most efficient, eco-friendly paths for your fleet
-                      or personal commute.
+                      or personal commute
                     </p>
                   </div>
                 </div>
@@ -210,10 +210,10 @@ export default function HomePage() {
             </h2>
             <p className="mb-8 text-gray-600">
               Join the growing number of organizations using Asphalt to reduce
-              their carbon footprint.
+              their carbon footprint
             </p>
             <Link href="/contact">
-              <button className="bg-[#034626] hover:bg-[#023219] text-white poppins-bold py-3 px-8 rounded-2xl text-base transition-colors duration-300">
+              <button className="bg-[#034626] hover:bg-[#023219] text-white poppins-bold py-3 px-8 rounded-2xl text-base transform transition-all duration-300 hover:scale-105">
                 Get Started
               </button>
             </Link>
