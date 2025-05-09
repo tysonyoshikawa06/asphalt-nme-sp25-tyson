@@ -231,7 +231,7 @@ const ExplorePage = () => {
         <div className="relative z-10 flex flex-col items-center justify-center w-full py-8 pb-24">
           {!isMapView ? (
             <div className="w-full max-w-4xl mx-auto flex flex-col items-center px-2 sm:px-4 md:px-8">
-              <h1 className="text-[52px] poppins-bold text-center leading-tight mb-10 text-gray-900">
+              <h1 className="text-[52px] poppins-bold text-center leading-tight mb-10 text-gray-900 animate-fade-in-down">
                 <span className="asphalt-green">Explore</span> <span className="text-black">Your New Route to</span><br />
                 <span className="asphalt-green mt-2 inline-block">Sustainability</span>
               </h1>

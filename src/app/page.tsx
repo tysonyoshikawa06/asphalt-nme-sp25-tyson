@@ -212,7 +212,7 @@ export default function HomePage() {
               Join the growing number of organizations using Asphalt to reduce
               their carbon footprint
             </p>
-            <Link href="/contact">
+            <Link href="/explore">
               <button className="bg-[#034626] hover:bg-[#023219] text-white poppins-bold py-3 px-8 rounded-2xl text-base transform transition-all duration-300 hover:scale-105">
                 Get Started
               </button>
